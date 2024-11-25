@@ -2,14 +2,18 @@
 
 ## Features
 - Shows all boards ordered by created
-  - Board
+  - GET /v1/board
 - Shows boards in a specific category
-  - Board
+  - GET /v1/board/{categoryId}
 - Shows last synced time
-  - SyncTime
+  - GET /v1/sync/last
 - Edits category
-  - Category
+  - POST /v1/category
+  - PUT /v1/category/{categoryId}
+  - DELETE /v1/category/{categoryId}
 - Edits category resoures
-  - CategoryResource
+  - POST /v1/category/resource
+  - PUT /v1/category/resource/{categoryResourceId}
+  - DELETE /v1/category/resource/{categoryResourceId}
 - Triggers re-categorization
-  - CategoryRelation
+  - PUT /v1/category/relation
