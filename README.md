@@ -1,19 +1,19 @@
 # bankrupt-web
 
 ## Features
-- Shows all boards ordered by created
+- Reads all boards ordered by created
   - GET /v1/board
-- Shows boards in a specific category
+- Reads boards in a specific category
   - GET /v1/board/{categoryId}
-- Shows last synced time
+- Reads last synced time
   - GET /v1/sync/last
-- Edits category
+- Create/Update/Delete category
   - POST /v1/category
   - PUT /v1/category/{categoryId}
   - DELETE /v1/category/{categoryId}
-- Edits category resoures
+- Create/Update/Delete category resoures
   - POST /v1/category/resource
   - PUT /v1/category/resource/{categoryResourceId}
   - DELETE /v1/category/resource/{categoryResourceId}
-- Triggers re-categorization
+- Update re-arrange category relation
   - PUT /v1/category/relation
