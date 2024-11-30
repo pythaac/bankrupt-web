@@ -1,5 +1,14 @@
 # bankrupt-web
 
+## Columns
+- index
+- court
+- seller
+- title
+- due
+- category
+- file
+
 ## Features
 - Reads all boards ordered by created
   - GET /v1/board
