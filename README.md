@@ -10,7 +10,10 @@ npx create-next-app .
 ```
 ### Install Chakra UI
 ```
-npm i @chakra-ui/react
+npm i @chakra-ui/react @emotion/react
+```
+```
+npx @chakra-ui/cli snippet add
 ```
 
 
