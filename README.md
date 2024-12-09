@@ -1,5 +1,19 @@
 # bankrupt-web
 
+## Prerequisite
+### Project setup
+```
+apt-install npm
+```
+```
+npx create-next-app .
+```
+### Install Chakra UI
+```
+npm i @chakra-ui/react
+```
+
+
 ## Columns
 - index
 - court
