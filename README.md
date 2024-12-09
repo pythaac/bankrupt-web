@@ -6,7 +6,7 @@
 apt-install npm
 ```
 ```
-npx create-next-app .
+npx create-next-app@latest
 ```
 ### Install Chakra UI
 ```
