@@ -27,7 +27,6 @@ npm i @chakra-ui/react @emotion/react
 npx @chakra-ui/cli snippet add
 ```
 
-
 ## Columns
 - index
 - court
