@@ -5,7 +5,7 @@ import styles from './layout.module.css'
 export default function Header() {
     return (
         <Box className={styles.header}>
-            <Flex gap="0" direction="row" justifyContent="space-between" height="100%">
+            <Flex className={styles.header_flex}>
                 <Text className={styles.header_title}>
                     Bankrupt
                 </Text>

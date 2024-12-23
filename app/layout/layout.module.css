@@ -1,16 +1,23 @@
 
 .layout {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+    width: calc(100vw - var(--scrollbar-width));
+    height: calc(100vh - 75px);
 }
 
 .header {
-    width: 100%; 
+    width: 100%;
+    min-width: 1202px;
     height: 75px;
     background-color: #D8D5D6;
     border-width: 1px;
     border-color: #B4ADAE;
+}
+
+.header_flex {
+    gap: 0;
+    direction: row;
+    justify-content: space-between;
+    height: 100%;
 }
 
 .header_title {
@@ -29,14 +36,15 @@
 
 .navigator {
     width: 200px;
-    height: 100svh;
+    min-width: 200px;
+    height: 100%;
     background-color: white;
     border-width: 1px;
     border-color: #B4ADAE;
 }
 
 .body {
-    height: 100svh;
+    height: 100%;
     flex: 1;
     background-color: white;
     border-width: 1px;
