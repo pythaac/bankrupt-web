@@ -26,3 +26,8 @@ npm install -D @typescript-eslint/eslint-plugin @typescript-eslint/parser
 npm i @chakra-ui/react @emotion/react
 npx @chakra-ui/cli snippet add
 ```
+### Install React Router
+```
+npm install react-router-dom
+```
+
