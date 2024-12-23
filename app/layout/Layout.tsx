@@ -1,4 +1,4 @@
-import { Box, Flex, HStack } from "@chakra-ui/react";
+import { Box, Flex, HStack, VStack } from "@chakra-ui/react";
 import Header from "./Header";
 import Navigator from "./Navigator";
 import Body from "./Body";
@@ -10,7 +10,7 @@ export default function Layout() {
         <div>
             <Box className={styles.layout}>
                 <Header/>
-                <HStack gap="0" direction="row">
+                <HStack gap="0" direction="row" height="100%">
                     <Navigator/>
                     <Body/>
                 </HStack>
