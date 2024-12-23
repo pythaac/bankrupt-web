@@ -30,4 +30,7 @@ npx @chakra-ui/cli snippet add
 ```
 npm install react-router-dom
 ```
-
+### Install Pagination
+```
+npx @chakra-ui/cli snippet add pagination
+```
