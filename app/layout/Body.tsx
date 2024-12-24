@@ -11,7 +11,6 @@ export default function Body() {
 
     return (
         <Box className={styles.body}>
-
             <Box 
                 padding="50px"
                 minW="1000px"
