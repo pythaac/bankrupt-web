@@ -1,7 +1,8 @@
 
 .layout {
     width: calc(100vw - var(--scrollbar-width));
-    height: calc(100vh - 75px);
+    height: 100vh;
+    overflow-y: hidden;
 }
 
 .header {
