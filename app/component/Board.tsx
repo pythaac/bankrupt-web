@@ -1,5 +1,10 @@
+"use client";
+
+import {
+    useState
+} from "react"
 import { 
-    Stack, 
+    Box, 
     Table,
     HStack, 
 } from "@chakra-ui/react";
@@ -11,6 +16,8 @@ import {
   } from "@/components/ui/pagination"
 
 import styles from './component.module.css'
+
+const pageSize = 5
 
 interface Item {
     index: number;
@@ -57,22 +64,35 @@ function getTableBody(items: Array<Item>) {
 }
 
 export default function Board({ items }: { items: Array<Item> }) {
+    const [page, setPage] = useState(1)
+
+    const startRange = (page - 1) * pageSize
+    const endRange = startRange + pageSize
+
+    const visibleItems = items.slice(startRange, endRange)
 
     return (
-        <Stack>
-            <Table.Root unstyled className={styles.table}>
-                {getTableHeader()}
-                {getTableBody(items)}
-            </Table.Root>
-
-            <PaginationRoot count={items.length * 5} pageSize={5} page={1}>
-                <HStack wrap="wrap">
-                <PaginationPrevTrigger />
-                <PaginationItems />
-                <PaginationNextTrigger />
-                </HStack>
-            </PaginationRoot>
-        </Stack>
-        
+        <Box>
+            <Box height="320px">
+                <Table.Root unstyled className={styles.table}>
+                    {getTableHeader()}
+                    {getTableBody(visibleItems)}
+                </Table.Root>
+            </Box>
+            <Box>
+                <PaginationRoot 
+                    page={page}
+                    count={items.length} 
+                    pageSize={pageSize}
+                    onPageChange={(e) => setPage(e.page)}
+                >
+                    <HStack wrap="wrap">
+                    <PaginationPrevTrigger color="black"/>
+                    <PaginationItems color="black"/>
+                    <PaginationNextTrigger color="black"/>
+                    </HStack>
+                </PaginationRoot>
+            </Box>
+        </Box>
     )
 }
