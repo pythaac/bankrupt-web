@@ -1,6 +1,6 @@
 import { Box, Table } from "@chakra-ui/react";
 
-import styles from './layout.module.css'
+import styles from './board.module.css'
 import Board from "../component/Board";
 
 export default function Body() {

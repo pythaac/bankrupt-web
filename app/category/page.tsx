@@ -1,8 +1,8 @@
 import Layout from "../layout/Layout";
 
-export default function Home() {
+export default function CategoryPage() {
   return (
-      <Layout/>
+      <Layout children/>
   );
 }
 
