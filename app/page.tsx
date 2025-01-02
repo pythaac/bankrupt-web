@@ -1,8 +1,8 @@
-import Layout from "./layout/Layout";
+import BoardPage from "./board/page";
 
 export default function Home() {
   return (
-      <Layout/>
+      <BoardPage/>
   );
 }
 
