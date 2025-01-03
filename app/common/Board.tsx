@@ -72,7 +72,7 @@ export default function Board({ items }: { items: Array<Item> }) {
     const visibleItems = items.slice(startRange, endRange)
 
     return (
-        <Box>
+        <>
             <Box height="320px">
                 <Table.Root unstyled className={styles.table}>
                     {getTableHeader()}
@@ -93,6 +93,6 @@ export default function Board({ items }: { items: Array<Item> }) {
                     </HStack>
                 </PaginationRoot>
             </Box>
-        </Box>
+        </>
     )
 }

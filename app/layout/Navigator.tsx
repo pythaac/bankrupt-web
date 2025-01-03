@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 
 import styles from './layout.module.css'
-import NavigatorList from "../component/NavigatorList";
+import NavigatorList from "../common/NavigatorList";
 
 export default function Navigator() {
     const items = [

@@ -1,7 +1,4 @@
-import { Box, Table } from "@chakra-ui/react";
-
-import styles from './board.module.css'
-import Board from "../component/Board";
+import Board from "../common/Board";
 
 export default function Body() {
     const items = [
@@ -32,14 +29,6 @@ export default function Body() {
     ]
 
     return (
-        <Box className={styles.body}>
-            <Box 
-                padding="50px"
-                minW="1000px"
-            >
-                <Board items={items}/>
-            </Box>
-
-        </Box>
+        <Board items={items}/>
     )
 }
