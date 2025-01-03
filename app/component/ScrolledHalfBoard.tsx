@@ -41,17 +41,13 @@ function getTableBody(items: Array<Item>) {
 export default function ScrolledHalfBoard({ items }: { items: Array<Item> }) {
 
     return (
-        <Box>
-            <Box height="320px">
-                <Box width="40%" height="100%" maxH="320px">
-                    <CustomScrollbars>
-                        <Table.Root unstyled className={styles.table}>
-                            {getTableHeader()}
-                            {getTableBody(items)}
-                        </Table.Root>
-                    </CustomScrollbars>
-                </Box>
-            </Box>
+        <Box width="45%" height="100%">
+            <CustomScrollbars>
+                <Table.Root unstyled className={styles.table}>
+                    {getTableHeader()}
+                    {getTableBody(items)}
+                </Table.Root>
+            </CustomScrollbars>
         </Box>
     )
 }

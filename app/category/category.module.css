@@ -1,0 +1,6 @@
+.body_flex {
+  height: 320px;
+  gap: 0;
+  direction: row;
+  justify-content: space-between;
+}

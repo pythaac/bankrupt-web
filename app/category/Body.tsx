@@ -1,5 +1,10 @@
-import ScrolledHalfBoard from '../component/ScrolledHalfBoard'
+import { 
+    Flex,
+    HStack,
+} from "@chakra-ui/react";
 
+import ScrolledHalfBoard from '../component/ScrolledHalfBoard'
+import styles from './category.module.css'
 
 export default function Body() {
     const items = [
@@ -30,6 +35,9 @@ export default function Body() {
     ]
 
     return (
-        <ScrolledHalfBoard items={items} />
+        <Flex className={styles.body_flex}>
+            <ScrolledHalfBoard items={items} />
+            <ScrolledHalfBoard items={items} />
+        </Flex>
     )
 }
