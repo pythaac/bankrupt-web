@@ -12,7 +12,15 @@ export default function Layout({children}: {children: ReactNode}) {
                 <Header/>
                 <HStack gap="0" direction="row" height="100%">
                     <Navigator/>
-                    {children}
+                    <Box className={styles.body}>
+                        <Box 
+                            padding="50px"
+                            minW="1000px"
+                        >
+                            {children}
+                        </Box>
+
+                    </Box>
                 </HStack>
             </Box>
         </>
