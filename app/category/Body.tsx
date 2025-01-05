@@ -4,13 +4,34 @@ import {
     Flex,
     Text
 } from "@chakra-ui/react";
-import { IconButton } from "@chakra-ui/react"
+import { 
+    IconButton,
+    Button
+} from "@chakra-ui/react"
 import { PiPlusBold } from "react-icons/pi";
 import { FaTrashCan } from "react-icons/fa6";
 import { ReactNode } from "react";
 
 import ScrolledHalfBoard from '../common/ScrolledHalfBoard'
 import styles from './category.module.css'
+
+interface category {
+    categoryName: string
+}
+
+function getCategoryItems(items: Array<category>) {
+    var categoryTable:Array<Array<ReactNode>> = []
+
+    items.map((category) => {
+        categoryTable.push(
+            [<Button size="md" variant="ghost">
+                <Text fontSize={'17px'} color={'black'}>{category.categoryName}</Text>
+            </Button>]
+        )
+    })
+
+    return categoryTable;
+}
 
 function addTrashbin(items: Array<Array<ReactNode>>) {
     items.map((row) => {
@@ -29,13 +50,12 @@ export default function Body() {
             <PiPlusBold color="black" />
         </IconButton>
     ]
-    const categoryItems = [
-        [<Text>채권</Text>], [<Text>부동산</Text>],
-        [<Text>채권</Text>], [<Text>부동산</Text>],
-        [<Text>채권</Text>], [<Text>부동산</Text>],
-        [<Text>채권</Text>], [<Text>부동산</Text>],
-        [<Text>채권</Text>], [<Text>부동산</Text>],
-        [<Text>채권</Text>], [<Text>부동산</Text>],
+    const categoryApiResult = [
+        {categoryName: "채권"}, {categoryName: "부동산"},
+        {categoryName: "채권"}, {categoryName: "부동산"},
+        {categoryName: "채권"}, {categoryName: "부동산"},
+        {categoryName: "채권"}, {categoryName: "부동산"},
+        {categoryName: "채권"}, {categoryName: "부동산"},
     ]
     const kewordsColumns = [
         <Text>Keywords</Text>,
@@ -51,6 +71,8 @@ export default function Body() {
         [<Text>채무자</Text>],
         [<Text>채무</Text>],
     ]
+
+    const categoryItems = getCategoryItems(categoryApiResult);
 
     addTrashbin(categoryItems);
     addTrashbin(kewordsItems);
