@@ -6,6 +6,7 @@ import styles from './component.module.css'
 export default function CustomScrollbars({children}: {children: ReactNode}) {
     return (
       <Scrollbars
+        universal
         thumbSize={50}
         renderTrackHorizontal={props => <div {...props} className={styles.track_horizontal}/>}
         renderTrackVertical={props => <div {...props} className={styles.track_vertical}/>}
