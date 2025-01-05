@@ -37,12 +37,12 @@ export default function ScrolledHalfBoard({ columns, items }: { columns: Array<R
 
     return (
         <Box width="45%" height="100%" overflowY={'auto'}>
-            {/* <CustomScrollbars> */}
+            <CustomScrollbars>
                 <Table.Root unstyled className={styles.table}>
                     {getTableHeader(columns)}
                     {getTableBody(items)}
                 </Table.Root>
-            {/* </CustomScrollbars> */}
+            </CustomScrollbars>
         </Box>
     )
 }
