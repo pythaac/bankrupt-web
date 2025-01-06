@@ -14,6 +14,7 @@ import { ReactNode } from "react";
 
 import ScrolledHalfBoard from '../common/ScrolledHalfBoard'
 import styles from './category.module.css'
+import InputDialog from "../common/InputDialog";
 
 interface category {
     categoryName: string
@@ -46,9 +47,11 @@ function addTrashbin(items: Array<Array<ReactNode>>) {
 export default function Body() {
     const categoryColumns = [
         <Text>Category</Text>,
-        <IconButton size="sm" variant="outline">
-            <PiPlusBold color="black" />
-        </IconButton>
+        <InputDialog>
+            <IconButton size="sm" variant="outline">
+                <PiPlusBold color="black" />
+            </IconButton>
+        </InputDialog>
     ]
     const categoryApiResult = [
         {categoryName: "채권"}, {categoryName: "부동산"},
@@ -59,9 +62,11 @@ export default function Body() {
     ]
     const kewordsColumns = [
         <Text>Keywords</Text>,
-        <IconButton size="sm" variant="outline">
-            <PiPlusBold color="black" />
-        </IconButton>
+        <InputDialog>
+            <IconButton size="sm" variant="outline">
+                <PiPlusBold color="black" />
+            </IconButton>
+        </InputDialog>
     ]
     const kewordsItems = [
         [<Text>채무자</Text>],

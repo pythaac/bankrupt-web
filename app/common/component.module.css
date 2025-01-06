@@ -21,6 +21,11 @@
     height: 50px;
 }
 
+.dialog {
+  color: #D8D5D6;
+  background-color: rgba(255, 255, 255, 0.111);
+}
+
 .track_vertical {
     top: 2px;
     bottom: 2px;
