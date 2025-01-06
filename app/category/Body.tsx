@@ -62,9 +62,11 @@ export default function Body() {
     ]
     const kewordsColumns = [
         <Text>Keywords</Text>,
-        <IconButton size="sm" variant="outline">
-            <PiPlusBold color="black" />
-        </IconButton>
+        <InputDialog>
+            <IconButton size="sm" variant="outline">
+                <PiPlusBold color="black" />
+            </IconButton>
+        </InputDialog>
     ]
     const kewordsItems = [
         [<Text>채무자</Text>],
