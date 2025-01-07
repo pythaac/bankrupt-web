@@ -1,10 +1,8 @@
-"use client"
-
-import { Input, Stack } from "@chakra-ui/react"
 import { Button } from "@/components/ui/button"
 import {
   DialogActionTrigger,
   DialogBody,
+  DialogCloseTrigger,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -12,27 +10,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Field } from "@/components/ui/field"
-import { ReactNode, useRef, Ref } from "react"
+import { ReactNode } from "react"
 
-import styles from './component.module.css'
+import styles from './dialog.module.css'
 
 function getHeader() {
   return (
     <DialogHeader className={styles.dialog}>
-      <DialogTitle>새로운 카테고리 추가</DialogTitle>
+      <DialogTitle>정말 삭제하시겠습니까?</DialogTitle>
     </DialogHeader>
   )
 }
 
-function getBody(ref: Ref<HTMLInputElement>) {
+function getBody() {
   return (
-    <DialogBody pb="4" className={styles.dialog}>
-      <Stack gap="4">
-        <Field label="카테고리 이름을 입력하세요">
-          <Input ref={ref} placeholder="카테고리" />
-        </Field>
-      </Stack>
+    <DialogBody className={styles.dialog}>
     </DialogBody>
   )
 }
@@ -43,23 +35,22 @@ function getFooter() {
       <DialogActionTrigger asChild>
         <Button variant="outline">취소</Button>
       </DialogActionTrigger>
-      <Button>저장</Button>
+      <Button colorPalette="red">삭제</Button>
     </DialogFooter>
   )
 }
 
-export default function InputDialog({children} : {children: ReactNode}) {
-  const ref = useRef<HTMLInputElement>(null)
-
+export default function AlertDialog({children} : {children: ReactNode}) {
   return (
-    <DialogRoot initialFocusEl={() => ref.current}>
+    <DialogRoot role="alertdialog">
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
       <DialogContent>
         {getHeader()}
-        {getBody(ref)}
+        {getBody()}
         {getFooter()}
+        <DialogCloseTrigger />
       </DialogContent>
     </DialogRoot>
   )

@@ -15,7 +15,7 @@ import {
     PaginationRoot,
   } from "@/components/ui/pagination"
 
-import styles from './component.module.css'
+import styles from './board.module.css'
 
 const pageSize = 5
 
