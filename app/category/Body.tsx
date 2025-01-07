@@ -14,7 +14,8 @@ import { ReactNode } from "react";
 
 import ScrolledHalfBoard from '@/app/common/board/ScrolledHalfBoard'
 import styles from './category.module.css'
-import InputDialog from "../common/dialog/InputDialog";
+import InputDialog from "@/app/common/dialog/InputDialog";
+import AlertDialog from "@/app/common/dialog/AlertDialog";
 
 interface category {
     categoryName: string
@@ -37,9 +38,11 @@ function getCategoryItems(items: Array<category>) {
 function addTrashbin(items: Array<Array<ReactNode>>) {
     items.map((row) => {
         row.push(
-            <IconButton size="sm" variant="ghost">
-                <FaTrashCan color="black" />
-            </IconButton>
+            <AlertDialog>
+                <IconButton size="sm" variant="ghost">
+                    <FaTrashCan color="black" />
+                </IconButton>
+            </AlertDialog>
         )
     })
 }
