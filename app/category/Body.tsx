@@ -12,9 +12,9 @@ import { PiPlusBold } from "react-icons/pi";
 import { FaTrashCan } from "react-icons/fa6";
 import { ReactNode } from "react";
 
-import ScrolledHalfBoard from '../common/ScrolledHalfBoard'
+import ScrolledHalfBoard from '@/app/common/board/ScrolledHalfBoard'
 import styles from './category.module.css'
-import InputDialog from "../common/InputDialog";
+import InputDialog from "../common/dialog/InputDialog";
 
 interface category {
     categoryName: string

@@ -15,7 +15,7 @@ import {
 import { Field } from "@/components/ui/field"
 import { ReactNode, useRef, Ref } from "react"
 
-import styles from './component.module.css'
+import styles from './dialog.module.css'
 
 function getHeader() {
   return (

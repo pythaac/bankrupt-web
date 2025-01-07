@@ -1,4 +1,4 @@
-import Board from "../common/Board";
+import Board from "@/app/common/board/Board";
 
 export default function Body() {
     const items = [

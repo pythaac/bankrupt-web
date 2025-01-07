@@ -3,8 +3,8 @@ import {
     Table,
 } from "@chakra-ui/react";
 
-import styles from './component.module.css'
-import CustomScrollbars from "./CustomScrollbars";
+import styles from './board.module.css'
+import CustomScrollbars from "../CustomScrollbars";
 import { ReactNode } from "react";
 
 function getTableHeader(columns: Array<ReactNode>) {
