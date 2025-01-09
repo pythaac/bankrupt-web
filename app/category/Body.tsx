@@ -69,7 +69,11 @@ export default function Body() {
     ]
     const kewordsColumns = [
         <Text>Keywords</Text>,
-        <InputDialog>
+        <InputDialog
+            title="새로운 키워드 추가"
+            label="땡땡 카테고리에 추가할 키워드를 입력하세요"
+            placeholder="키워드"
+        >
             <IconButton size="sm" variant="outline">
                 <PiPlusBold color="black" />
             </IconButton>
