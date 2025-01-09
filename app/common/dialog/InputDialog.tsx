@@ -17,20 +17,24 @@ import { ReactNode, useRef, Ref } from "react"
 
 import styles from './dialog.module.css'
 
-function getHeader() {
+function getHeader(title: string) {
   return (
     <DialogHeader className={styles.dialog}>
-      <DialogTitle>새로운 카테고리 추가</DialogTitle>
+      <DialogTitle>{title}</DialogTitle>
     </DialogHeader>
   )
 }
 
-function getBody(ref: Ref<HTMLInputElement>) {
+function getBody({ref, label, placeholder}: {
+  ref: Ref<HTMLInputElement>,
+  label: string,
+  placeholder: string
+}) {
   return (
     <DialogBody pb="4" className={styles.dialog}>
       <Stack gap="4">
-        <Field label="카테고리 이름을 입력하세요">
-          <Input ref={ref} placeholder="카테고리" />
+        <Field label={label}>
+          <Input ref={ref} placeholder={placeholder} />
         </Field>
       </Stack>
     </DialogBody>
@@ -48,7 +52,12 @@ function getFooter() {
   )
 }
 
-export default function InputDialog({children} : {children: ReactNode}) {
+export default function InputDialog({children, title, label, placeholder} : {
+  children: ReactNode,
+  title: string,
+  label: string,
+  placeholder: string
+}) {
   const ref = useRef<HTMLInputElement>(null)
 
   return (
@@ -57,8 +66,8 @@ export default function InputDialog({children} : {children: ReactNode}) {
         {children}
       </DialogTrigger>
       <DialogContent>
-        {getHeader()}
-        {getBody(ref)}
+        {getHeader(title)}
+        {getBody({ref, label, placeholder})}
         {getFooter()}
       </DialogContent>
     </DialogRoot>
