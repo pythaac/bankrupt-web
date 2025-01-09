@@ -50,7 +50,11 @@ function addTrashbin(items: Array<Array<ReactNode>>) {
 export default function Body() {
     const categoryColumns = [
         <Text>Category</Text>,
-        <InputDialog>
+        <InputDialog 
+            title="새로운 카테고리 추가"
+            label="카테고리 이름을 입력하세요"
+            placeholder="카테고리"
+        >
             <IconButton size="sm" variant="outline">
                 <PiPlusBold color="black" />
             </IconButton>
