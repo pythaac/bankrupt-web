@@ -16,6 +16,7 @@ import {
   } from "@/components/ui/pagination"
 
 import styles from './board.module.css'
+import Select from "../Select";
 
 const pageSize = 5
 
@@ -27,6 +28,10 @@ interface Item {
     due: string;
     category: string;
     file: string;
+}
+
+interface Category {
+    categoryName: string
 }
 
 function getTableHeader() {
@@ -42,6 +47,24 @@ function getTableHeader() {
                 <Table.ColumnHeader>파일</Table.ColumnHeader>
             </Table.Row>
         </Table.Header>
+    )
+}
+
+function getFilter({categories}: {categories: Array<Category>}) {
+    return (
+        <Table.Body>
+            <Table.Row key="categorySelect" className={styles.table_row}>
+                <Table.Cell> {/* index */} </Table.Cell>
+                <Table.Cell> {/* court */} </Table.Cell>
+                <Table.Cell> {/* seller */} </Table.Cell>
+                <Table.Cell> {/* title */} </Table.Cell>
+                <Table.Cell> {/* due */} </Table.Cell>
+                <Table.Cell className={styles.table_component}>
+                    <Select items={categories} />
+                </Table.Cell>
+                <Table.Cell> {/* file */} </Table.Cell>
+            </Table.Row>
+        </Table.Body>
     )
 }
 
@@ -71,11 +94,21 @@ export default function Board({ items }: { items: Array<Item> }) {
 
     const visibleItems = items.slice(startRange, endRange)
 
+    const categories = [
+        {categoryName: "테스트1"},
+        {categoryName: "테스트2"},
+        {categoryName: "테스트3"},
+        {categoryName: "테스트4"},
+        {categoryName: "테스트5"},
+        {categoryName: "테스트6"},
+    ]
+
     return (
         <>
-            <Box height="320px">
+            <Box height="370px">
                 <Table.Root unstyled className={styles.table}>
                     {getTableHeader()}
+                    {getFilter({categories})}
                     {getTableBody(visibleItems)}
                 </Table.Root>
             </Box>
