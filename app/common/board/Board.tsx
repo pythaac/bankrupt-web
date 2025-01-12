@@ -105,7 +105,7 @@ export default function Board({ items }: { items: Array<Item> }) {
 
     return (
         <>
-            <Box height="320px">
+            <Box height="370px">
                 <Table.Root unstyled className={styles.table}>
                     {getTableHeader()}
                     {getFilter({categories})}
