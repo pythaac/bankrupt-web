@@ -20,3 +20,10 @@
     border-color: #B4ADAE;
     height: 50px;
 }
+
+.table_component {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
