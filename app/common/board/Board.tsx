@@ -118,6 +118,7 @@ export default function Board({ boards, totalCount, pageState }: { boards: Array
                     count={totalCount} 
                     pageSize={pageSize}
                     onPageChange={(e) => setPage(e.page)}
+                    siblingCount={3}
                 >
                     <HStack wrap="wrap">
                     <PaginationPrevTrigger color="black"/>
