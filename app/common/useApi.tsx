@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from "react";
 
 export function useApi<T>(
@@ -12,19 +14,18 @@ export function useApi<T>(
         setError(null);
         setIsLoading(true);
 
-        try {
-            await fetch(url, {
-                method: method,
-                headers: headers,
-                body: JSON.stringify(body)
-            })
-            .then((response) => setData(response.json() as T));
-        } catch (error: any) {
+        await fetch(url, {
+            method: method,
+            headers: headers,
+            body: JSON.stringify(body)
+        })
+        .then((response) => response.json() as T)
+        .then((res) => setData(res))
+        .catch((error) => {
             setError(error);
             {initData ? setData(initData) : undefined}
-        } finally {
-            setIsLoading(false);
-        }
+        })
+        .finally(() => {setIsLoading(false)});
     }
 
     useEffect(() => {

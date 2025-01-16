@@ -20,18 +20,21 @@ import Select from "../Select";
 
 const pageSize = 5
 
-interface Item {
-    index: number;
-    court: string;
-    seller: string;
-    title: string;
-    due: string;
-    category: string;
-    file: string;
+interface Category {
+    id: number,
+    categoryName: string
 }
 
-interface Category {
-    categoryName: string
+interface Board {
+    id: number,
+    court: string,
+    seller: string,
+    title: string,
+    uploaded: string,
+    due: string,
+    fileLink: string,
+    telephoneNumber: string,
+    categories: Array<Category>
 }
 
 function getTableHeader() {
@@ -68,39 +71,36 @@ function getFilter({categories}: {categories: Array<Category>}) {
     )
 }
 
-function getTableBody(items: Array<Item>) {
+function getTableBody(items: Array<Board>) {
     return (
         <Table.Body>
             {items.map((item) => (
-                <Table.Row key={item.index} className={styles.table_row}>
-                    <Table.Cell>{item.index}</Table.Cell>
+                <Table.Row key={item.id} className={styles.table_row}>
+                    <Table.Cell>{item.id}</Table.Cell>
                     <Table.Cell>{item.court}</Table.Cell>
                     <Table.Cell>{item.seller}</Table.Cell>
                     <Table.Cell>{item.title}</Table.Cell>
                     <Table.Cell>{item.due}</Table.Cell>
-                    <Table.Cell>{item.category}</Table.Cell>
-                    <Table.Cell>{item.file}</Table.Cell>
+                    <Table.Cell>{item.categories.map(category => category.categoryName).join(",")}</Table.Cell>
+                    <Table.Cell>
+                        <a href={item.fileLink}>{item.fileLink.endsWith(".pdf") ? "pdf" : "hwp"}</a>
+                    </Table.Cell>
                 </Table.Row>
             ))}
         </Table.Body>
     )
 }
 
-export default function Board({ items }: { items: Array<Item> }) {
-    const [page, setPage] = useState(1)
-
-    const startRange = (page - 1) * pageSize
-    const endRange = startRange + pageSize
-
-    const visibleItems = items.slice(startRange, endRange)
+export default function Board({ boards, totalCount, pageState }: { boards: Array<Board>, totalCount: number, pageState: any }) {
+    const [page, setPage] = pageState;
 
     const categories = [
-        {categoryName: "테스트1"},
-        {categoryName: "테스트2"},
-        {categoryName: "테스트3"},
-        {categoryName: "테스트4"},
-        {categoryName: "테스트5"},
-        {categoryName: "테스트6"},
+        {id: 1, categoryName: "테스트1"},
+        {id: 2, categoryName: "테스트2"},
+        {id: 3, categoryName: "테스트3"},
+        {id: 4, categoryName: "테스트4"},
+        {id: 5, categoryName: "테스트5"},
+        {id: 6, categoryName: "테스트6"},
     ]
 
     return (
@@ -109,13 +109,13 @@ export default function Board({ items }: { items: Array<Item> }) {
                 <Table.Root unstyled className={styles.table}>
                     {getTableHeader()}
                     {getFilter({categories})}
-                    {getTableBody(visibleItems)}
+                    {getTableBody(boards)}
                 </Table.Root>
             </Box>
             <Box>
                 <PaginationRoot 
                     page={page}
-                    count={items.length} 
+                    count={totalCount} 
                     pageSize={pageSize}
                     onPageChange={(e) => setPage(e.page)}
                 >
