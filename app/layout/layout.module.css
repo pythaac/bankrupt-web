@@ -3,11 +3,12 @@
     width: calc(100vw - var(--scrollbar-width));
     height: 100vh;
     overflow-y: hidden;
+    min-width: 1500px;
 }
 
 .header {
     width: 100%;
-    min-width: 1202px;
+    min-width: 1500px;
     height: 75px;
     background-color: #D8D5D6;
     border-width: 1px;
