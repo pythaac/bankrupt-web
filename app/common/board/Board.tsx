@@ -11,6 +11,7 @@ import {
 import {
     PaginationItems,
     PaginationNextTrigger,
+    PaginationPageText,
     PaginationPrevTrigger,
     PaginationRoot,
   } from "@/components/ui/pagination"
@@ -121,9 +122,9 @@ export default function Board({ boards, totalCount, pageState }: { boards: Array
                     siblingCount={3}
                 >
                     <HStack wrap="wrap">
-                    <PaginationPrevTrigger color="black"/>
-                    <PaginationItems color="black"/>
-                    <PaginationNextTrigger color="black"/>
+                        <PaginationPageText format="long" flex="1" color="black"/>
+                        <PaginationPrevTrigger color="black"/>
+                        <PaginationNextTrigger color="black"/>
                     </HStack>
                 </PaginationRoot>
             </Box>
