@@ -1,12 +1,13 @@
 "use client"
 
 import { useEffect, useState } from "react";
+import { ApiResult } from "../Constants";
 
 export function useApi<T>(
     {method, url, initData, body, headers}: 
     {method: string, url: string, initData?: any, body?: any, headers?: any}
-) {
-    const [data, setData] = useState(initData);
+): ApiResult<T> {
+    const [data, setData] = useState<T>(initData);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -32,5 +33,10 @@ export function useApi<T>(
         fetchData();
     }, [method, url, body, headers]);
 
-    return [data, error, isLoading, fetchData];
+    return {
+        "data": data, 
+        "error": error, 
+        "isLoading": isLoading,
+        "refetch": fetchData
+    };
 }

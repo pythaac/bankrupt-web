@@ -17,3 +17,10 @@ export interface Board {
     telephoneNumber: string,
     categories: Array<Category>
 }
+
+export interface ApiResult<T> {
+    data: T,
+    error: any,
+    isLoading: boolean,
+    refetch: Function
+}
