@@ -32,5 +32,5 @@ export function useApi<T>(
         fetchData();
     }, [method, url, body, headers]);
 
-    return [data, error, isLoading];
+    return [data, error, isLoading, fetchData];
 }
