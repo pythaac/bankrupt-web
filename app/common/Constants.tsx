@@ -1,2 +1,2 @@
 
-const apiServerUrl = "http://localhost:8080";
+export const apiServerUrl = "http://localhost:8080";
