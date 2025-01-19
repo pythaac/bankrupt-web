@@ -1,31 +1,28 @@
 import { useState } from "react";
 import { useApi } from "./UseApi";
-import { apiServerUrl } from "../Constants";
-
-interface Category {
-    id: number,
-    categoryName: string
-}
-
-interface Board {
-    id: number,
-    court: string,
-    seller: string,
-    title: string,
-    uploaded: string,
-    due: string,
-    fileLink: string,
-    telephoneNumber: string,
-    categories: Array<Category>
-}
+import { apiServerUrl, Board } from "../Constants";
 
 export function useBoard() {
     const [page, setPage] = useState<number>(1);
+    const [categoryId, setCategoryId] = useState<number>(NaN);
     const [url, setUrl] = useState(apiServerUrl + "/v1/board?page=1");
 
-    function changePage(page: number) {
-        setPage(page);
-        setUrl(apiServerUrl + "/v1/board?page=" + page);
+    function getUrl(page: number, categoryId: number) {
+        if (categoryId) {
+            return apiServerUrl + "/v1/board/" + categoryId + "?page=" + page;
+        } else {
+            return apiServerUrl + "/v1/board?page=" + page;
+        }
+    }
+
+    function onChangePage(_page: number) {
+        setPage(_page);
+        setUrl(getUrl(_page, categoryId));
+    }
+
+    function onChangeCategoryId(_categoryId: number) {
+        setCategoryId(_categoryId)
+        setUrl(getUrl(page, _categoryId));
     }
 
     const [boardData, boardError, boardIsLoading, boardRefetching] = useApi<Array<Board>>({
@@ -36,6 +33,7 @@ export function useBoard() {
 
     return [boardData, boardError, boardIsLoading, boardRefetching, {
         "page": page,
-        "onChangePage" : changePage
+        "onChangePage" : onChangePage,
+        "onChangeCategoryId" : onChangeCategoryId
     }];
 }
