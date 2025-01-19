@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useApi } from "./UseApi";
 import { apiServerUrl, Board } from "../Constants";
 
-export function useBoard() {
+export function useBoard(): any {
     const [page, setPage] = useState<number>(1);
     const [categoryId, setCategoryId] = useState<number>(NaN);
     const [url, setUrl] = useState(apiServerUrl + "/v1/board?page=1");
@@ -25,15 +25,16 @@ export function useBoard() {
         setUrl(getUrl(page, _categoryId));
     }
 
-    const [boardData, boardError, boardIsLoading, boardRefetching] = useApi<Array<Board>>({
+    const apiResult = useApi<Array<Board>>({
         method: "GET",
         url: url,
         initData: []
     });
 
-    return [boardData, boardError, boardIsLoading, boardRefetching, {
+    return [apiResult, {
         "page": page,
         "onChangePage" : onChangePage,
+        "categoryId": categoryId,
         "onChangeCategoryId" : onChangeCategoryId
     }];
 }
