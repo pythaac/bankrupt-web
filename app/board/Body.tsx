@@ -5,6 +5,7 @@ import { useApi } from "../common/api/UseApi";
 import { useEffect, useState } from "react";
 import { apiServerUrl } from "../common/Constants";
 import { useBoard } from "../common/api/UseBoard";
+import { useBoardCount } from "../common/api/UseBoardCount";
 
 interface Category {
     id: number,
@@ -28,13 +29,10 @@ export default function Body() {
     const page = boardProps.page;
     const onChangePage = boardProps.onChangePage;
 
+    const [countData, countError, countIsLoading, countRefetch] = useBoardCount();
+
     const [categoryId, setCategoryId] = useState<number>(NaN);
 
-    const [countData, countError, countIsLoading] = useApi<number>({
-        method: "GET",
-        url: apiServerUrl + "/v1/board/count",
-        initData: 0
-    });
     const [categoryData, categoryError, categoryIsLoading] = useApi<Array<Category>>({
         method: "GET",
         url: apiServerUrl + "/v1/category",
