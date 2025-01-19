@@ -18,25 +18,9 @@ import {
 
 import styles from './board.module.css'
 import Select from "../Select";
+import { Board, Category } from "../Constants";
 
 const pageSize = 5
-
-interface Category {
-    id: number,
-    categoryName: string
-}
-
-interface Board {
-    id: number,
-    court: string,
-    seller: string,
-    title: string,
-    uploaded: string,
-    due: string,
-    fileLink: string,
-    telephoneNumber: string,
-    categories: Array<Category>
-}
 
 function getTableHeader() {
     return (
