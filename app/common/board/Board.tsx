@@ -52,8 +52,6 @@ function getFilter({categories}: {categories: Array<ICategory>}) {
         }))
     });
 
-    console.log(itemCollection.at(0));
-
     return (
         <Table.Body>
             <Table.Row key="categorySelect" className={styles.table_row}>
