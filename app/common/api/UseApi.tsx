@@ -1,12 +1,12 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { ApiResult } from "../Constants";
+import { IApiResult } from "../Constants";
 
 export function useApi<T>(
     {method, url, initData, body, headers}: 
     {method: string, url: string, initData?: any, body?: any, headers?: any}
-): ApiResult<T> {
+): IApiResult<T> {
     const [data, setData] = useState<T>(initData);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
