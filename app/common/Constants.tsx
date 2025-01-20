@@ -29,3 +29,8 @@ export interface ICategoryResource {
     categoryId: number,
     keyword: string
 }
+
+export interface ICategoryBundle {
+    category: ICategory,
+    categoryResources: Array<ICategoryResource>
+}
