@@ -1,17 +1,13 @@
 "use client";
 
-import {
-    useState
-} from "react"
 import { 
     Box, 
     Table,
     HStack,
-    ListCollection,
     createListCollection, 
+    Text, 
 } from "@chakra-ui/react";
 import {
-    PaginationItems,
     PaginationNextTrigger,
     PaginationPageText,
     PaginationPrevTrigger,
@@ -40,9 +36,11 @@ function getTableHeader() {
     )
 }
 
-function getFilter({categories}: {categories: Array<ICategory>}) {
+function getFilter({categories, categoryIdState}: {categories: Array<ICategory>, categoryIdState: any}) {
+    const [categoryId, setCategoryId] = categoryIdState;
+
     function getKey(element: any) {
-        return element.id;
+        return element.value;
     }
 
     const itemCollection = createListCollection({
@@ -51,6 +49,10 @@ function getFilter({categories}: {categories: Array<ICategory>}) {
             value: category.id
         }))
     });
+
+    function onValueChange(value: Array<number>) {
+        setCategoryId(value.length == 0 ? NaN : value.at(0));
+    }
 
     return (
         <Table.Body>
@@ -61,7 +63,7 @@ function getFilter({categories}: {categories: Array<ICategory>}) {
                 <Table.Cell> {/* title */} </Table.Cell>
                 <Table.Cell> {/* due */} </Table.Cell>
                 <Table.Cell className={styles.table_component}>
-                    <Select itemCollection={itemCollection} getKey={getKey} />
+                    <Select itemCollection={itemCollection} getKey={getKey} onValueChange={onValueChange}/>
                 </Table.Cell>
                 <Table.Cell> {/* file */} </Table.Cell>
             </Table.Row>
@@ -79,7 +81,11 @@ function getTableBody(items: Array<IBoard>) {
                     <Table.Cell>{item.seller}</Table.Cell>
                     <Table.Cell>{item.title}</Table.Cell>
                     <Table.Cell>{item.due}</Table.Cell>
-                    <Table.Cell>{item.categories.map(category => category.categoryName).join(",")}</Table.Cell>
+                    <Table.Cell>
+                        <Text textOverflow="ellipsis" >
+                            {item.categories.map(category => category.categoryName).join(",")}
+                        </Text>
+                    </Table.Cell>
                     <Table.Cell>
                         <a href={item.fileLink}>{item.fileLink.endsWith(".pdf") ? "pdf" : "hwp"}</a>
                     </Table.Cell>
@@ -98,14 +104,13 @@ export default function Board({ boards, totalCount, categories, pageState, categ
         categoryIdState: any 
     }) {
     const [page, setPage] = pageState;
-    const [categoryId, setCategoryId] = categoryIdState;
 
     return (
         <>
             <Box height="370px">
                 <Table.Root unstyled className={styles.table}>
                     {getTableHeader()}
-                    {getFilter({categories})}
+                    {getFilter({categories, categoryIdState})}
                     {getTableBody(boards)}
                 </Table.Root>
             </Box>
