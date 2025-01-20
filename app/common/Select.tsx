@@ -9,11 +9,16 @@ import {
     SelectValueText,
   } from "@/components/ui/select"
 
-export default function Select({itemCollection, getKey}
-    : {itemCollection: ListCollection<any>, getKey: Function}) {
+export default function Select({itemCollection, getKey, onValueChange}
+    : {itemCollection: ListCollection<any>, getKey: Function, onValueChange: Function}) {
 
     return (
-        <SelectRoot collection={itemCollection} size="sm" flex="max-content">
+        <SelectRoot 
+            collection={itemCollection} 
+            size="sm" 
+            width="100px"
+            onValueChange={(element) => onValueChange(element.value)}
+        >
         <SelectTrigger clearable>
             <SelectValueText/>
         </SelectTrigger>
