@@ -24,3 +24,8 @@ export interface IApiResult<T> {
     isLoading: boolean,
     refetch: Function
 }
+
+export interface ICategoryResource {
+    categoryId: number,
+    keyword: string
+}
