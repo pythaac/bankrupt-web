@@ -6,7 +6,9 @@ import {
 import { 
     Box, 
     Table,
-    HStack, 
+    HStack,
+    ListCollection,
+    createListCollection, 
 } from "@chakra-ui/react";
 import {
     PaginationItems,
@@ -18,25 +20,9 @@ import {
 
 import styles from './board.module.css'
 import Select from "../Select";
+import { IBoard, ICategory } from "../Constants";
 
 const pageSize = 5
-
-interface Category {
-    id: number,
-    categoryName: string
-}
-
-interface Board {
-    id: number,
-    court: string,
-    seller: string,
-    title: string,
-    uploaded: string,
-    due: string,
-    fileLink: string,
-    telephoneNumber: string,
-    categories: Array<Category>
-}
 
 function getTableHeader() {
     return (
@@ -54,7 +40,18 @@ function getTableHeader() {
     )
 }
 
-function getFilter({categories}: {categories: Array<Category>}) {
+function getFilter({categories}: {categories: Array<ICategory>}) {
+    function getKey(element: any) {
+        return element.id;
+    }
+
+    const itemCollection = createListCollection({
+        items: categories.map((category) => ({
+            label: category.categoryName,
+            value: category.id
+        }))
+    });
+
     return (
         <Table.Body>
             <Table.Row key="categorySelect" className={styles.table_row}>
@@ -64,7 +61,7 @@ function getFilter({categories}: {categories: Array<Category>}) {
                 <Table.Cell> {/* title */} </Table.Cell>
                 <Table.Cell> {/* due */} </Table.Cell>
                 <Table.Cell className={styles.table_component}>
-                    <Select items={categories} />
+                    <Select itemCollection={itemCollection} getKey={getKey} />
                 </Table.Cell>
                 <Table.Cell> {/* file */} </Table.Cell>
             </Table.Row>
@@ -72,7 +69,7 @@ function getFilter({categories}: {categories: Array<Category>}) {
     )
 }
 
-function getTableBody(items: Array<Board>) {
+function getTableBody(items: Array<IBoard>) {
     return (
         <Table.Body>
             {items.map((item) => (
@@ -92,17 +89,16 @@ function getTableBody(items: Array<Board>) {
     )
 }
 
-export default function Board({ boards, totalCount, pageState }: { boards: Array<Board>, totalCount: number, pageState: any }) {
+export default function Board({ boards, totalCount, categories, pageState, categoryIdState }
+    : { 
+        boards: Array<IBoard>, 
+        totalCount: number, 
+        categories: Array<ICategory>, 
+        pageState: any, 
+        categoryIdState: any 
+    }) {
     const [page, setPage] = pageState;
-
-    const categories = [
-        {id: 1, categoryName: "테스트1"},
-        {id: 2, categoryName: "테스트2"},
-        {id: 3, categoryName: "테스트3"},
-        {id: 4, categoryName: "테스트4"},
-        {id: 5, categoryName: "테스트5"},
-        {id: 6, categoryName: "테스트6"},
-    ]
+    const [categoryId, setCategoryId] = categoryIdState;
 
     return (
         <>
@@ -119,7 +115,6 @@ export default function Board({ boards, totalCount, pageState }: { boards: Array
                     count={totalCount} 
                     pageSize={pageSize}
                     onPageChange={(e) => setPage(e.page)}
-                    siblingCount={3}
                 >
                     <HStack wrap="wrap">
                         <PaginationPageText format="long" flex="1" color="black"/>

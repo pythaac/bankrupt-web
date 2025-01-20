@@ -1,6 +1,6 @@
 "use client"
 
-import { createListCollection } from "@chakra-ui/react"
+import { ListCollection } from "@chakra-ui/react"
 import {
     SelectContent,
     SelectItem,
@@ -9,22 +9,18 @@ import {
     SelectValueText,
   } from "@/components/ui/select"
 
-interface Category {
-    categoryName: string
-}
-
-export default function Select({items}: {items: Array<Category>}) {
-    const categories = createListCollection({items: items});
+export default function Select({itemCollection, getKey}
+    : {itemCollection: ListCollection<any>, getKey: Function}) {
 
     return (
-        <SelectRoot collection={categories} size="sm" width="100px">
-        <SelectTrigger>
-            {/* <SelectValueText placeholder="카테고리" /> */}
+        <SelectRoot collection={itemCollection} size="sm" flex="max-content">
+        <SelectTrigger clearable>
+            <SelectValueText/>
         </SelectTrigger>
         <SelectContent>
-            {categories.items.map((category) => (
-            <SelectItem item={category} key={category.categoryName}>
-                {category.categoryName}
+            {itemCollection.items.map((element) => (
+            <SelectItem item={element} key={getKey(element)}>
+                {element.label}
             </SelectItem>
             ))}
         </SelectContent>
