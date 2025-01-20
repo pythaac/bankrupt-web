@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useApi } from "./UseApi";
-import { apiServerUrl, IBoard } from "../Constants";
+import { apiServerUrl, Board } from "../Constants";
 
 export function useBoard(): any {
     const [page, setPage] = useState<number>(1);
@@ -22,10 +22,11 @@ export function useBoard(): any {
 
     function onChangeCategoryId(_categoryId: number) {
         setCategoryId(_categoryId)
-        setUrl(getUrl(page, _categoryId));
+        setUrl(getUrl(1, _categoryId));
+        setPage(1);
     }
 
-    const apiResult = useApi<Array<IBoard>>({
+    const apiResult = useApi<Array<Board>>({
         method: "GET",
         url: url,
         initData: []

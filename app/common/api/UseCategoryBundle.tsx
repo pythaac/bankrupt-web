@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { apiServerUrl, ICategoryBundle, ICategoryResource } from "../Constants";
+import { apiServerUrl, ICategoryBundle } from "../Constants";
 import { useApi } from "./UseApi";
 
 export function useCategoryBundle(): any {
