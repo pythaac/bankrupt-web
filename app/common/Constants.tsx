@@ -34,3 +34,7 @@ export interface ICategoryBundle {
     category: ICategory,
     categoryResources: Array<ICategoryResource>
 }
+
+export interface ISyncTime {
+    syncTime: Date
+}
