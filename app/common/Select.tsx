@@ -16,8 +16,8 @@ export default function Select({itemCollection, getKey, onValueChange}
         <SelectRoot 
             collection={itemCollection} 
             size="sm" 
-            width="100px"
             onValueChange={(element) => onValueChange(element.value)}
+            width="100%"
         >
         <SelectTrigger clearable>
             <SelectValueText/>

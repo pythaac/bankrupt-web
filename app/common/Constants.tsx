@@ -1,5 +1,5 @@
 
-export const apiServerUrl = "http://localhost:8080";
+export const apiServerUrl = "http://localhost:8100";
 
 export interface ICategory {
     id: number,
@@ -23,4 +23,14 @@ export interface IApiResult<T> {
     error: any,
     isLoading: boolean,
     refetch: Function
+}
+
+export interface ICategoryResource {
+    categoryId: number,
+    keyword: string
+}
+
+export interface ICategoryBundle {
+    category: ICategory,
+    categoryResources: Array<ICategoryResource>
 }

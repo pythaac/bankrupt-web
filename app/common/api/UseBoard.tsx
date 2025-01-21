@@ -22,7 +22,8 @@ export function useBoard(): any {
 
     function onChangeCategoryId(_categoryId: number) {
         setCategoryId(_categoryId)
-        setUrl(getUrl(page, _categoryId));
+        setUrl(getUrl(1, _categoryId));
+        setPage(1);
     }
 
     const apiResult = useApi<Array<IBoard>>({

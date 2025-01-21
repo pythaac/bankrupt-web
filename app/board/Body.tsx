@@ -8,11 +8,15 @@ import { useCategory } from "../common/api/UseCategory";
 export default function Body() {
     const [boardResult, boardProps] = useBoard();
     const pageState = [boardProps.page, boardProps.onChangePage];
-    const categoryIdState = [boardProps.categoryId, boardProps.onChangeCategoryId];
 
-    const countResult = useBoardCount();
+    const [countResult, countProps] = useBoardCount();
 
     const categoryResult = useCategory();
+
+    function onChangeCategoryId(categoryId: number) {
+        boardProps.onChangeCategoryId(categoryId);
+        countProps.onChangeCategoryId(categoryId);
+    }
 
     return (
         <Board 
@@ -20,7 +24,7 @@ export default function Body() {
             totalCount={countResult.data}
             categories={categoryResult.data}
             pageState={pageState}
-            categoryIdState={categoryIdState}
+            categoryIdState={[boardProps.categoryId, onChangeCategoryId]}
         />
     )
 }
