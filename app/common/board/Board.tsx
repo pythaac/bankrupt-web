@@ -82,7 +82,7 @@ function getTableBody(items: Array<IBoard>) {
                     <Table.Cell>{item.title}</Table.Cell>
                     <Table.Cell>{item.due}</Table.Cell>
                     <Table.Cell>
-                        <Text textOverflow="ellipsis" >
+                        <Text>
                             {item.categories.map(category => category.categoryName).join(",")}
                         </Text>
                     </Table.Cell>
@@ -108,7 +108,7 @@ export default function Board({ boards, totalCount, categories, pageState, categ
     return (
         <>
             <Box height="370px">
-                <Table.Root unstyled className={styles.table}>
+                <Table.Root unstyled className={styles.table} textOverflow="ellipsis">
                     {getTableHeader()}
                     {getFilter({categories, categoryIdState})}
                     {getTableBody(boards)}
