@@ -1,5 +1,5 @@
 
-export const apiServerUrl = "http://localhost:8080";
+export const apiServerUrl = "http://localhost:8100";
 
 export interface ICategory {
     id: number,
