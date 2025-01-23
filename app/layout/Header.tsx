@@ -18,8 +18,6 @@ export default function Header() {
         return "";
     }
 
-    console.log(syncTimeResult.data)
-
     return (
         <Box className={styles.header}>
             <Flex className={styles.header_flex}>

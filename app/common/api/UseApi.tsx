@@ -17,8 +17,8 @@ export function useApi<T>(
 
         await fetch(url, {
             method: method,
-            headers: headers,
-            body: JSON.stringify(body)
+            ...headers && {headers},
+            ...body && new Blob([JSON.stringify(body)], { type: "application/json" })
         })
         .then((response) => response.json() as T)
         .then((res) => setData(res))
