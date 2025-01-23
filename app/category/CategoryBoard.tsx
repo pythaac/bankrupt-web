@@ -1,14 +1,15 @@
+"use client"
+
 import { Button, IconButton, Text } from "@chakra-ui/react";
 import ScrolledHalfBoard from "../common/board/ScrolledHalfBoard";
 import InputDialog from "../common/dialog/InputDialog";
 import { PiPlusBold } from "react-icons/pi";
 import { apiServerUrl, ICategory } from "../common/Constants";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useCategory } from "../common/api/UseCategory";
 import AlertDialog from "../common/dialog/AlertDialog";
 import { FaTrashCan } from "react-icons/fa6";
 import { FieldValues } from "react-hook-form";
-import { setTimeout } from "timers";
 
 interface CategoryBody extends FieldValues {
     categoryName: string
@@ -20,9 +21,7 @@ function getCategoryColumns(refetch: any) {
             method: "POST",
             body: new Blob([JSON.stringify(data)], { type: "application/json" })
         })
-        .then(() => {
-            setTimeout(() => refetch(), 3000);
-        });
+        .then(() => refetch());
     }
 
     return [
@@ -71,7 +70,7 @@ export default function CategoryBoard({categoryBundleState}: {categoryBundleStat
     const categoryApiResult = useCategory();
     const [categoryBundleApiResult, categoryBundleApiProps] = categoryBundleState;
     
-    const categoryColumns = getCategoryColumns(categoryBundleApiResult.refetch);
+    const categoryColumns = getCategoryColumns(categoryApiResult.refetch);
     const categoryItems = getCategoryItems(categoryApiResult.data, categoryBundleApiProps.onChangeCategoryId);
     addTrashbin(categoryItems);
     
