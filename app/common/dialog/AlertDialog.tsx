@@ -29,18 +29,18 @@ function getBody() {
   )
 }
 
-function getFooter() {
+function getFooter(onClick: any) {
   return (
     <DialogFooter className={styles.dialog}>
       <DialogActionTrigger asChild>
         <Button variant="outline">취소</Button>
       </DialogActionTrigger>
-      <Button colorPalette="red">삭제</Button>
+      <Button colorPalette="red" onClick={onClick}>삭제</Button>
     </DialogFooter>
   )
 }
 
-export default function AlertDialog({children} : {children: ReactNode}) {
+export default function AlertDialog({children, onClick} : {children: ReactNode, onClick: any}) {
   return (
     <DialogRoot role="alertdialog">
       <DialogTrigger asChild>
@@ -49,7 +49,7 @@ export default function AlertDialog({children} : {children: ReactNode}) {
       <DialogContent>
         {getHeader()}
         {getBody()}
-        {getFooter()}
+        {getFooter(onClick)}
         <DialogCloseTrigger />
       </DialogContent>
     </DialogRoot>
