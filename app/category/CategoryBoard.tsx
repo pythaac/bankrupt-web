@@ -9,9 +9,8 @@ import { ReactNode, useEffect, useState } from "react";
 import { useCategory } from "../common/api/UseCategory";
 import AlertDialog from "../common/dialog/AlertDialog";
 import { FaTrashCan } from "react-icons/fa6";
-import { FieldValues } from "react-hook-form";
 
-interface CategoryBody extends FieldValues {
+interface CategoryBody {
     categoryName: string
 }
 
@@ -40,39 +39,48 @@ function getCategoryColumns(refetch: any) {
     ];
 }
 
-function getCategoryItems(items: Array<ICategory>, onChangeCategoryId: Function) {
+function addTrashbin(categoryId: number, onClickDeleteCategoryButton: Function) {
+    return (
+        <AlertDialog onClick={() => onClickDeleteCategoryButton(categoryId)}>
+            <IconButton size="sm" variant="ghost">
+                <FaTrashCan color="black" />
+            </IconButton>
+        </AlertDialog>
+    )
+}
+
+function getCategoryItems(items: Array<ICategory>, onChangeCategoryId: Function, onClickDeleteCategoryButton: Function) {
     var categoryTable:Array<Array<ReactNode>> = []
 
     items.map((category) => {
         categoryTable.push(
-            [<Button size="md" variant="ghost" onClick={() => onChangeCategoryId(category.id)}>
+            [
+            <Button size="md" variant="ghost" onClick={() => onChangeCategoryId(category.id)}>
                 <Text fontSize={'17px'} color={'black'}>{category.categoryName}</Text>
-            </Button>]
+            </Button>,
+            addTrashbin(category.id, onClickDeleteCategoryButton)
+            ]
         )
     })
 
     return categoryTable;
 }
 
-function addTrashbin(items: Array<Array<ReactNode>>) {
-    items.map((row) => {
-        row.push(
-            <AlertDialog>
-                <IconButton size="sm" variant="ghost">
-                    <FaTrashCan color="black" />
-                </IconButton>
-            </AlertDialog>
-        )
-    })
-}
 
 export default function CategoryBoard({categoryBundleState}: {categoryBundleState: any}) {
     const categoryApiResult = useCategory();
     const [categoryBundleApiResult, categoryBundleApiProps] = categoryBundleState;
+
+    async function onClickDeleteCategoryButton(categoryId: number) {
+        await fetch(apiServerUrl + "/v1/category/" + categoryId, {
+            method: "DELETE"
+        })
+        .then(() => categoryApiResult.refetch())
+        .then(() => categoryBundleApiResult.refetch());
+    }
     
     const categoryColumns = getCategoryColumns(categoryApiResult.refetch);
-    const categoryItems = getCategoryItems(categoryApiResult.data, categoryBundleApiProps.onChangeCategoryId);
-    addTrashbin(categoryItems);
+    const categoryItems = getCategoryItems(categoryApiResult.data, categoryBundleApiProps.onChangeCategoryId, onClickDeleteCategoryButton);
     
     return (
         <ScrolledHalfBoard columns={categoryColumns} items={categoryItems} />

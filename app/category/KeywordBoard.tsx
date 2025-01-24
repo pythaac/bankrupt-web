@@ -11,18 +11,6 @@ interface KeywordBody {
     keyword: string
 }
 
-function addTrashbin(items: Array<Array<ReactNode>>) {
-    items.map((row) => {
-        row.push(
-            <AlertDialog>
-                <IconButton size="sm" variant="ghost">
-                    <FaTrashCan color="black" />
-                </IconButton>
-            </AlertDialog>
-        )
-    })
-}
-
 function getKewordColumns(refetch: any, category: any) {
     async function onClickAddKewordButton(data: any) {
         if (category !== undefined) {
@@ -50,14 +38,27 @@ function getKewordColumns(refetch: any, category: any) {
     ];
 }
 
-function getKewordItems(keywords: Array<ICategoryResource>) {
+function addTrashbin(categoryResoruceId: number, onClickDeleteCategoryResourceButton: Function) {
+    return (
+        <AlertDialog onClick={() => onClickDeleteCategoryResourceButton(categoryResoruceId)}>
+            <IconButton size="sm" variant="ghost">
+                <FaTrashCan color="black" />
+            </IconButton>
+        </AlertDialog>
+    )
+}
+
+function getKewordItems(keywords: Array<ICategoryResource>, onClickDeleteCategoryResourceButton: Function) {
 
     var keywordTable:Array<Array<ReactNode>> = []
 
     if (keywords !== undefined) {
         keywords.map((keyword) => {
             keywordTable.push(
-                [<Text>{keyword.keyword}</Text>]
+                [
+                <Text>{keyword.keyword}</Text>,
+                addTrashbin(keyword.categoryResourceId, onClickDeleteCategoryResourceButton)
+            ]
             )
         })
     }
@@ -70,10 +71,15 @@ export default function KeywordBoard({categoryBundleState}: {categoryBundleState
     const category = categoryBundleApiResult.data.category;
     const keywords = categoryBundleApiResult.data.categoryResources;
 
+    async function onClickDeleteCategoryResourceButton(categoryResourceId: number) {
+        await fetch(apiServerUrl + "/v1/category/resource/" + categoryResourceId, {
+            method: "DELETE"
+        })
+        .then(() => categoryBundleApiResult.refetch());
+    }
     
     const kewordsColumns = getKewordColumns(categoryBundleApiResult.refetch, category);
-    const keywordItems = getKewordItems(keywords);
-    addTrashbin(keywordItems);
+    const keywordItems = getKewordItems(keywords, onClickDeleteCategoryResourceButton);
 
     return (
         <ScrolledHalfBoard columns={kewordsColumns} items={keywordItems} />

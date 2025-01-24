@@ -36,7 +36,7 @@ function getBody({ label, placeholder, register, submitName }: {
         <DialogBody pb="4" className={styles.dialog}>
             <Stack gap="4">
                 <Field label={label}>
-                    <Input placeholder={placeholder} {...register(submitName)} />
+                    <Input placeholder={placeholder} autoComplete="off" {...register(submitName)} />
                 </Field>
             </Stack>
         </DialogBody>
@@ -64,9 +64,12 @@ export default function InputDialog<T extends FieldValues>({ children, title, la
     submitName: string,
     onSubmitSave: Function
 }) {
-    const { register, handleSubmit, formState: { errors } } = useForm<T>();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<T>();
 
-    const onSubmit = handleSubmit((data) => onSubmitSave(data));
+    const onSubmit = handleSubmit((data) => {
+        onSubmitSave(data);
+        reset();
+    });
 
     return (
             <DialogRoot>

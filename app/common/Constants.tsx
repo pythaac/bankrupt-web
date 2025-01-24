@@ -26,6 +26,7 @@ export interface IApiResult<T> {
 }
 
 export interface ICategoryResource {
+    categoryResourceId: number
     categoryId: number,
     keyword: string
 }
