@@ -39,16 +39,9 @@ function getCategoryColumns(refetch: any) {
     ];
 }
 
-function addTrashbin(categoryId: number, refetch: Function) {
-    async function onClickDeleteCategoryButton() {
-        await fetch(apiServerUrl + "/v1/category/" + categoryId, {
-            method: "DELETE"
-        })
-        .then(() => refetch());
-    }
-
+function addTrashbin(categoryId: number, onClickDeleteCategoryButton: Function) {
     return (
-        <AlertDialog onClick={onClickDeleteCategoryButton}>
+        <AlertDialog onClick={() => onClickDeleteCategoryButton(categoryId)}>
             <IconButton size="sm" variant="ghost">
                 <FaTrashCan color="black" />
             </IconButton>
@@ -56,7 +49,7 @@ function addTrashbin(categoryId: number, refetch: Function) {
     )
 }
 
-function getCategoryItems(items: Array<ICategory>, onChangeCategoryId: Function, refetch: Function) {
+function getCategoryItems(items: Array<ICategory>, onChangeCategoryId: Function, onClickDeleteCategoryButton: Function) {
     var categoryTable:Array<Array<ReactNode>> = []
 
     items.map((category) => {
@@ -64,7 +57,7 @@ function getCategoryItems(items: Array<ICategory>, onChangeCategoryId: Function,
             [<Button size="md" variant="ghost" onClick={() => onChangeCategoryId(category.id)}>
                 <Text fontSize={'17px'} color={'black'}>{category.categoryName}</Text>
             </Button>,
-            addTrashbin(category.id, refetch)
+            addTrashbin(category.id, onClickDeleteCategoryButton)
             ]
         )
     })
@@ -76,9 +69,17 @@ function getCategoryItems(items: Array<ICategory>, onChangeCategoryId: Function,
 export default function CategoryBoard({categoryBundleState}: {categoryBundleState: any}) {
     const categoryApiResult = useCategory();
     const [categoryBundleApiResult, categoryBundleApiProps] = categoryBundleState;
+
+    async function onClickDeleteCategoryButton(categoryId: number) {
+        await fetch(apiServerUrl + "/v1/category/" + categoryId, {
+            method: "DELETE"
+        })
+        .then(() => categoryApiResult.refetch())
+        .then(() => categoryBundleApiResult.refetch());
+    }
     
     const categoryColumns = getCategoryColumns(categoryApiResult.refetch);
-    const categoryItems = getCategoryItems(categoryApiResult.data, categoryBundleApiProps.onChangeCategoryId, categoryApiResult.refetch);
+    const categoryItems = getCategoryItems(categoryApiResult.data, categoryBundleApiProps.onChangeCategoryId, onClickDeleteCategoryButton);
     
     return (
         <ScrolledHalfBoard columns={categoryColumns} items={categoryItems} />
