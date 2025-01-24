@@ -8,7 +8,7 @@ import { PiPlusBold } from "react-icons/pi";
 import { apiServerUrl, ICategoryResource } from "../common/Constants";
 
 interface KeywordBody {
-    categoryName: string
+    keyword: string
 }
 
 function addTrashbin(items: Array<Array<ReactNode>>) {
@@ -25,11 +25,13 @@ function addTrashbin(items: Array<Array<ReactNode>>) {
 
 function getKewordColumns(refetch: any, category: any) {
     async function onClickAddKewordButton(data: any) {
-        await fetch(apiServerUrl + "/v1/category/resource", {
-            method: "POST",
-            body: JSON.stringify({...data, categoryId: category.id})
-        })
-        .then(() => {refetch()});
+        if (category !== undefined) {
+            await fetch(apiServerUrl + "/v1/category/resource", {
+                method: "POST",
+                body: new Blob([JSON.stringify({...data, categoryId: category.id})], { type: "application/json" })
+            })
+            .then(() => {refetch()});
+        }
     }
 
     return [
@@ -38,7 +40,7 @@ function getKewordColumns(refetch: any, category: any) {
             title="새로운 키워드 추가"
             label="땡땡 카테고리에 추가할 키워드를 입력하세요"
             placeholder="키워드"
-            submitName="categoryName"
+            submitName="keyword"
             onSubmitSave={onClickAddKewordButton}
         >
             <IconButton size="sm" variant="outline">
