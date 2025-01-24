@@ -54,7 +54,8 @@ function getCategoryItems(items: Array<ICategory>, onChangeCategoryId: Function,
 
     items.map((category) => {
         categoryTable.push(
-            [<Button size="md" variant="ghost" onClick={() => onChangeCategoryId(category.id)}>
+            [
+            <Button size="md" variant="ghost" onClick={() => onChangeCategoryId(category.id)}>
                 <Text fontSize={'17px'} color={'black'}>{category.categoryName}</Text>
             </Button>,
             addTrashbin(category.id, onClickDeleteCategoryButton)
