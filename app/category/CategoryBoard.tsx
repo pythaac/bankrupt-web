@@ -4,7 +4,7 @@ import { Button, IconButton, Text } from "@chakra-ui/react";
 import ScrolledHalfBoard from "../common/board/ScrolledHalfBoard";
 import InputDialog from "../common/dialog/InputDialog";
 import { PiPlusBold } from "react-icons/pi";
-import { apiServerUrl, ICategory } from "../common/Constants";
+import { apiServerUrl, IApiResult, ICategory } from "../common/Constants";
 import { ReactNode, useEffect, useState } from "react";
 import { useCategory } from "../common/api/UseCategory";
 import AlertDialog from "../common/dialog/AlertDialog";
@@ -14,13 +14,19 @@ interface CategoryBody {
     categoryName: string
 }
 
-function getCategoryColumns(refetch: any) {
+function getCategoryColumns(categoryApiResult: IApiResult<ICategory>) {
+
     async function onClickAddCategoryButton(data: any) {
-        await fetch(apiServerUrl + "/v1/category", {
+        const response = await fetch(apiServerUrl + "/v1/category", {
             method: "POST",
             body: new Blob([JSON.stringify(data)], { type: "application/json" })
         })
-        .then(() => refetch());
+        
+        if (response.ok) {
+            await categoryApiResult.refetch();
+            return !categoryApiResult.error;
+        }
+        return false;
     }
 
     return [
@@ -79,7 +85,7 @@ export default function CategoryBoard({categoryBundleState}: {categoryBundleStat
         .then(() => categoryBundleApiResult.refetch());
     }
     
-    const categoryColumns = getCategoryColumns(categoryApiResult.refetch);
+    const categoryColumns = getCategoryColumns(categoryApiResult);
     const categoryItems = getCategoryItems(categoryApiResult.data, categoryBundleApiProps.onChangeCategoryId, onClickDeleteCategoryButton);
     
     return (
