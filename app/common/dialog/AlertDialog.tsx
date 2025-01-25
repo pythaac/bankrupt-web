@@ -10,9 +10,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { ReactNode } from "react"
+import { ReactNode, useContext } from "react"
 
 import styles from './dialog.module.css'
+import { ToastContext } from "../Context"
 
 function getHeader() {
   return (
@@ -29,18 +30,41 @@ function getBody() {
   )
 }
 
-function getFooter(onClick: any) {
+function getFooter(onSubmit: any) {
   return (
     <DialogFooter className={styles.dialog}>
       <DialogActionTrigger asChild>
         <Button variant="outline">취소</Button>
       </DialogActionTrigger>
-      <Button colorPalette="red" onClick={onClick}>삭제</Button>
+      <DialogActionTrigger asChild>
+        <Button colorPalette="red" onClick={onSubmit}>삭제</Button>
+      </DialogActionTrigger>
     </DialogFooter>
   )
 }
 
 export default function AlertDialog({children, onClick} : {children: ReactNode, onClick: any}) {
+    const toaster = useContext(ToastContext);
+
+    const onSubmit = () => {
+        const promise = new Promise<void>(async (resolve) => {
+            await onClick();
+            resolve();
+          });
+
+        toaster.promise(promise, {
+            success: {
+              title: "삭제 완료",
+              description: "삭제가 성공적으로 완료되었습니다",
+            },
+            error: {
+              title: "삭제 실패",
+              description: "삭제에 실패하였습니다",
+            },
+            loading: { title: "삭제중...", description: "잠시만 기다려주세요" },
+          })
+    };
+
   return (
     <DialogRoot role="alertdialog">
       <DialogTrigger asChild>
@@ -49,7 +73,7 @@ export default function AlertDialog({children, onClick} : {children: ReactNode, 
       <DialogContent>
         {getHeader()}
         {getBody()}
-        {getFooter(onClick)}
+        {getFooter(onSubmit)}
         <DialogCloseTrigger />
       </DialogContent>
     </DialogRoot>

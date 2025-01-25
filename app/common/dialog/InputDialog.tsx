@@ -1,6 +1,6 @@
 "use client"
 
-import { Input, Stack } from "@chakra-ui/react"
+import { createToaster, Input, Stack, Toast, Toaster } from "@chakra-ui/react"
 import { Button } from "@/components/ui/button"
 import {
     DialogActionTrigger,
@@ -13,10 +13,11 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Field } from "@/components/ui/field"
-import { ReactNode, useRef, Ref } from "react"
+import { ReactNode, useRef, Ref, useContext } from "react"
 import { FieldValues, useForm, UseFormRegister } from "react-hook-form"
 
 import styles from './dialog.module.css'
+import { ToastContext } from "../Context"
 
 function getHeader(title: string) {
     return (
@@ -64,14 +65,33 @@ export default function InputDialog<T extends FieldValues>({ children, title, la
     submitName: string,
     onSubmitSave: Function
 }) {
+
     const { register, handleSubmit, reset, formState: { errors } } = useForm<T>();
+    const toaster = useContext(ToastContext);
 
     const onSubmit = handleSubmit((data) => {
-        onSubmitSave(data);
-        reset();
+
+        const promise = new Promise<void>(async (resolve) => {
+            await onSubmitSave(data);
+            reset();
+            resolve();
+          });
+
+        toaster.promise(promise, {
+            success: {
+              title: "업로드 완료",
+              description: "저장이 성공적으로 완료되었습니다",
+            },
+            error: {
+              title: "업로드 실패",
+              description: "저장에 실패하였습니다",
+            },
+            loading: { title: "업로드 중...", description: "잠시만 기다려주세요" },
+          })
     });
 
     return (
+        <>
             <DialogRoot>
                 <DialogTrigger asChild>
                     {children}
@@ -84,5 +104,6 @@ export default function InputDialog<T extends FieldValues>({ children, title, la
                     </form>
                 </DialogContent>
             </DialogRoot>
+        </>
     )
 }
