@@ -63,7 +63,7 @@ export default function InputDialog<T extends FieldValues>({ children, title, la
     label: string,
     placeholder: string,
     submitName: string,
-    onSubmitSave: Function
+    onSubmitSave: (data: any) => Promise<any>
 }) {
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<T>();
@@ -71,10 +71,15 @@ export default function InputDialog<T extends FieldValues>({ children, title, la
 
     const onSubmit = handleSubmit((data) => {
 
-        const promise = new Promise<void>(async (resolve) => {
-            await onSubmitSave(data);
-            reset();
-            resolve();
+        const promise = new Promise<void>(async (resolve, reject) => {
+            const isSuccess = await onSubmitSave(data);
+
+            if (isSuccess) {
+                reset();
+                resolve();
+            } else {
+                reject();
+            }
           });
 
         toaster.promise(promise, {
