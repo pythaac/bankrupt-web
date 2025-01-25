@@ -43,14 +43,19 @@ function getFooter(onSubmit: any) {
   )
 }
 
-export default function AlertDialog({children, onClick} : {children: ReactNode, onClick: any}) {
+export default function AlertDialog({children, onClick} : {children: ReactNode, onClick: () => Promise<any>}) {
     const toaster = useContext(ToastContext);
 
     const onSubmit = () => {
-        const promise = new Promise<void>(async (resolve) => {
-            await onClick();
+        const promise = new Promise<void>(async (resolve, reject) => {
+          const isSuccess = await onClick();
+
+          if (isSuccess) {
             resolve();
-          });
+        } else {
+            reject();
+        }
+      });
 
         toaster.promise(promise, {
             success: {
