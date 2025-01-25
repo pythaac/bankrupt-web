@@ -14,19 +14,19 @@ interface CategoryBody {
     categoryName: string
 }
 
-function getCategoryColumns(categoryApiResult: IApiResult<ICategory>) {
+function getCategoryColumns(categoryApiResult: IApiResult<Array<ICategory>>) {
 
     async function onClickAddCategoryButton(data: any) {
-        const response = await fetch(apiServerUrl + "/v1/category", {
+        const responsePost = await fetch(apiServerUrl + "/v1/category", {
             method: "POST",
             body: new Blob([JSON.stringify(data)], { type: "application/json" })
         })
+        if (!responsePost.ok) return false;
+
+        await categoryApiResult.refetch();
+        if (categoryApiResult.error) return false;
         
-        if (response.ok) {
-            await categoryApiResult.refetch();
-            return !categoryApiResult.error;
-        }
-        return false;
+        return true;
     }
 
     return [
@@ -55,10 +55,29 @@ function addTrashbin(categoryId: number, onClickDeleteCategoryButton: Function) 
     )
 }
 
-function getCategoryItems(items: Array<ICategory>, onChangeCategoryId: Function, onClickDeleteCategoryButton: Function) {
+function getCategoryItems(
+    categoryApiResult: IApiResult<Array<ICategory>>, 
+    categoryBundleApiResult: any,
+    onChangeCategoryId: Function) {
+    
     var categoryTable:Array<Array<ReactNode>> = []
 
-    items.map((category) => {
+    async function onClickDeleteCategoryButton(categoryId: number) {
+        const responseDelete = await fetch(apiServerUrl + "/v1/category/" + categoryId, {
+            method: "DELETE"
+        })
+        if (!responseDelete.ok) return false;
+        
+        await categoryApiResult.refetch();
+        if (categoryApiResult.error) return false;
+
+        await categoryBundleApiResult.refetch();
+        if (categoryBundleApiResult.error) return false;
+
+        return true;
+    }
+
+    categoryApiResult.data.map((category) => {
         categoryTable.push(
             [
             <Button size="md" variant="ghost" onClick={() => onChangeCategoryId(category.id)}>
@@ -76,17 +95,9 @@ function getCategoryItems(items: Array<ICategory>, onChangeCategoryId: Function,
 export default function CategoryBoard({categoryBundleState}: {categoryBundleState: any}) {
     const categoryApiResult = useCategory();
     const [categoryBundleApiResult, categoryBundleApiProps] = categoryBundleState;
-
-    async function onClickDeleteCategoryButton(categoryId: number) {
-        await fetch(apiServerUrl + "/v1/category/" + categoryId, {
-            method: "DELETE"
-        })
-        .then(() => categoryApiResult.refetch())
-        .then(() => categoryBundleApiResult.refetch());
-    }
     
     const categoryColumns = getCategoryColumns(categoryApiResult);
-    const categoryItems = getCategoryItems(categoryApiResult.data, categoryBundleApiProps.onChangeCategoryId, onClickDeleteCategoryButton);
+    const categoryItems = getCategoryItems(categoryApiResult, categoryBundleApiResult, categoryBundleApiProps.onChangeCategoryId);
     
     return (
         <ScrolledHalfBoard columns={categoryColumns} items={categoryItems} />
