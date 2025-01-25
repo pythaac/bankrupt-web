@@ -4,7 +4,7 @@ import { Button, IconButton, Text } from "@chakra-ui/react";
 import ScrolledHalfBoard from "../common/board/ScrolledHalfBoard";
 import InputDialog from "../common/dialog/InputDialog";
 import { PiPlusBold } from "react-icons/pi";
-import { apiServerUrl, ICategory } from "../common/Constants";
+import { apiServerUrl, IApiResult, ICategory } from "../common/Constants";
 import { ReactNode, useEffect, useState } from "react";
 import { useCategory } from "../common/api/UseCategory";
 import AlertDialog from "../common/dialog/AlertDialog";
@@ -14,13 +14,19 @@ interface CategoryBody {
     categoryName: string
 }
 
-function getCategoryColumns(refetch: any) {
+function getCategoryColumns(categoryApiResult: IApiResult<Array<ICategory>>) {
+
     async function onClickAddCategoryButton(data: any) {
-        await fetch(apiServerUrl + "/v1/category", {
+        const responsePost = await fetch(apiServerUrl + "/v1/category", {
             method: "POST",
             body: new Blob([JSON.stringify(data)], { type: "application/json" })
         })
-        .then(() => refetch());
+        if (!responsePost.ok) return false;
+
+        await categoryApiResult.refetch();
+        if (categoryApiResult.error) return false;
+        
+        return true;
     }
 
     return [
@@ -49,10 +55,29 @@ function addTrashbin(categoryId: number, onClickDeleteCategoryButton: Function) 
     )
 }
 
-function getCategoryItems(items: Array<ICategory>, onChangeCategoryId: Function, onClickDeleteCategoryButton: Function) {
+function getCategoryItems(
+    categoryApiResult: IApiResult<Array<ICategory>>, 
+    categoryBundleApiResult: any,
+    onChangeCategoryId: Function) {
+    
     var categoryTable:Array<Array<ReactNode>> = []
 
-    items.map((category) => {
+    async function onClickDeleteCategoryButton(categoryId: number) {
+        const responseDelete = await fetch(apiServerUrl + "/v1/category/" + categoryId, {
+            method: "DELETE"
+        })
+        if (!responseDelete.ok) return false;
+        
+        await categoryApiResult.refetch();
+        if (categoryApiResult.error) return false;
+
+        await categoryBundleApiResult.refetch();
+        if (categoryBundleApiResult.error) return false;
+
+        return true;
+    }
+
+    categoryApiResult.data.map((category) => {
         categoryTable.push(
             [
             <Button size="md" variant="ghost" onClick={() => onChangeCategoryId(category.id)}>
@@ -70,17 +95,9 @@ function getCategoryItems(items: Array<ICategory>, onChangeCategoryId: Function,
 export default function CategoryBoard({categoryBundleState}: {categoryBundleState: any}) {
     const categoryApiResult = useCategory();
     const [categoryBundleApiResult, categoryBundleApiProps] = categoryBundleState;
-
-    async function onClickDeleteCategoryButton(categoryId: number) {
-        await fetch(apiServerUrl + "/v1/category/" + categoryId, {
-            method: "DELETE"
-        })
-        .then(() => categoryApiResult.refetch())
-        .then(() => categoryBundleApiResult.refetch());
-    }
     
-    const categoryColumns = getCategoryColumns(categoryApiResult.refetch);
-    const categoryItems = getCategoryItems(categoryApiResult.data, categoryBundleApiProps.onChangeCategoryId, onClickDeleteCategoryButton);
+    const categoryColumns = getCategoryColumns(categoryApiResult);
+    const categoryItems = getCategoryItems(categoryApiResult, categoryBundleApiResult, categoryBundleApiProps.onChangeCategoryId);
     
     return (
         <ScrolledHalfBoard columns={categoryColumns} items={categoryItems} />

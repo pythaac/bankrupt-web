@@ -22,7 +22,7 @@ export interface IApiResult<T> {
     data: T,
     error: any,
     isLoading: boolean,
-    refetch: Function
+    refetch: () => Promise<any>
 }
 
 export interface ICategoryResource {

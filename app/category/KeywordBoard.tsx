@@ -5,20 +5,28 @@ import { IconButton, Text } from "@chakra-ui/react";
 import { FaTrashCan } from "react-icons/fa6";
 import InputDialog from "../common/dialog/InputDialog";
 import { PiPlusBold } from "react-icons/pi";
-import { apiServerUrl, ICategoryResource } from "../common/Constants";
+import { apiServerUrl, IApiResult, ICategoryBundle, ICategoryResource } from "../common/Constants";
 
 interface KeywordBody {
     keyword: string
 }
 
-function getKewordColumns(refetch: any, category: any) {
+function getKewordColumns(categoryBundleApiResult: IApiResult<ICategoryBundle>) {
+
+    const category = categoryBundleApiResult.data.category;
+
     async function onClickAddKewordButton(data: any) {
         if (category !== undefined) {
-            await fetch(apiServerUrl + "/v1/category/resource", {
+            const responsePost = await fetch(apiServerUrl + "/v1/category/resource", {
                 method: "POST",
                 body: new Blob([JSON.stringify({...data, categoryId: category.id})], { type: "application/json" })
             })
-            .then(() => {refetch()});
+            if (!responsePost.ok) return false;
+
+            await categoryBundleApiResult.refetch();
+            if (categoryBundleApiResult.error) return false;
+
+            return true;
         }
     }
 
@@ -48,9 +56,23 @@ function addTrashbin(categoryResoruceId: number, onClickDeleteCategoryResourceBu
     )
 }
 
-function getKewordItems(keywords: Array<ICategoryResource>, onClickDeleteCategoryResourceButton: Function) {
+function getKewordItems(categoryBundleApiResult: IApiResult<ICategoryBundle>) {
 
     var keywordTable:Array<Array<ReactNode>> = []
+
+    async function onClickDeleteCategoryResourceButton(categoryResourceId: number) {
+        const responseDelete = await fetch(apiServerUrl + "/v1/category/resource/" + categoryResourceId, {
+            method: "DELETE"
+        })
+        if (!responseDelete.ok) return false;
+
+        await categoryBundleApiResult.refetch();
+        if (categoryBundleApiResult.error) return false;
+
+        return true;
+    }
+
+    const keywords = categoryBundleApiResult.data.categoryResources;
 
     if (keywords !== undefined) {
         keywords.map((keyword) => {
@@ -68,18 +90,9 @@ function getKewordItems(keywords: Array<ICategoryResource>, onClickDeleteCategor
 
 export default function KeywordBoard({categoryBundleState}: {categoryBundleState: any}) {
     const [categoryBundleApiResult, categoryBundleApiProps] = categoryBundleState;
-    const category = categoryBundleApiResult.data.category;
-    const keywords = categoryBundleApiResult.data.categoryResources;
-
-    async function onClickDeleteCategoryResourceButton(categoryResourceId: number) {
-        await fetch(apiServerUrl + "/v1/category/resource/" + categoryResourceId, {
-            method: "DELETE"
-        })
-        .then(() => categoryBundleApiResult.refetch());
-    }
     
-    const kewordsColumns = getKewordColumns(categoryBundleApiResult.refetch, category);
-    const keywordItems = getKewordItems(keywords, onClickDeleteCategoryResourceButton);
+    const kewordsColumns = getKewordColumns(categoryBundleApiResult);
+    const keywordItems = getKewordItems(categoryBundleApiResult);
 
     return (
         <ScrolledHalfBoard columns={kewordsColumns} items={keywordItems} />
