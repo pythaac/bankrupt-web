@@ -1,6 +1,6 @@
 "use client"
 
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Link, Text, VStack } from "@chakra-ui/react";
 
 import styles from './layout.module.css'
 import { useSyncTime } from "../common/api/UseSyncTime";
@@ -25,9 +25,16 @@ export default function Header() {
                     Bankrupt
                 </Text>
 
-                <Text className={styles.header_last_update}>
-                    {"마지막 동기화 시간 : " + getFormattedTime(syncTimeResult.data)}
-                </Text>
+                <VStack>
+                    <Text className={styles.header_last_update}>
+                        {"마지막 동기화 시간 : " + getFormattedTime(syncTimeResult.data)}
+                    </Text>
+                    <Text className={styles.header_copyright}>
+                        데이터 출처 : 대한민국 법원 (
+                        <Link href="#" color="blue">https://www.scourt.go.kr/</Link>
+                        )
+                    </Text>
+                </VStack>
             </Flex>
         </Box>
     )
