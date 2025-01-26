@@ -31,7 +31,7 @@ export default function Header() {
                     </Text>
                     <Text className={styles.header_copyright}>
                         데이터 출처 : 대한민국 법원 (
-                        <Link href="#" color="blue">https://www.scourt.go.kr/</Link>
+                        <Link href="https://www.scourt.go.kr/" target="_blank" color="blue">https://www.scourt.go.kr/</Link>
                         )
                     </Text>
                 </VStack>
