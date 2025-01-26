@@ -5,7 +5,8 @@ import {
     Table,
     HStack,
     createListCollection, 
-    Text, 
+    Text,
+    Link, 
 } from "@chakra-ui/react";
 import {
     PaginationNextTrigger,
@@ -87,7 +88,7 @@ function getTableBody(items: Array<IBoard>) {
                         </Text>
                     </Table.Cell>
                     <Table.Cell>
-                        <a href={item.fileLink}>{item.fileLink.endsWith(".pdf") ? "pdf" : "hwp"}</a>
+                        <Link href={item.fileLink} color="blue">{item.fileLink.endsWith(".pdf") ? "pdf" : "hwp"}</Link>
                     </Table.Cell>
                 </Table.Row>
             ))}
