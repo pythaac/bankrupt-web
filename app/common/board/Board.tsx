@@ -17,7 +17,7 @@ import {
 
 import styles from './board.module.css'
 import Select from "../Select";
-import { IBoard, ICategory } from "../Constants";
+import { apiServerUrl, IBoard, ICategory } from "../Constants";
 
 const pageSize = 5
 
@@ -73,6 +73,56 @@ function getFilter({categories, categoryIdState}: {categories: Array<ICategory>,
 }
 
 function getTableBody(items: Array<IBoard>) {
+
+    async function OpenPdf(fileLink: string) {
+        const regex = /file=(.*)&/;
+
+        const file = regex.exec(fileLink)![1];
+        const fileName = fileLink.split("downFile=")[1];
+
+        try {
+            const responsePdf = await fetch(apiServerUrl + `/v1/file/pdf?file=${file}&fileName=${fileName}`);
+            if (!responsePdf.ok) throw new Error("파일 다운로드 실패");
+    
+            const blob = await responsePdf.blob();
+            const blobUrl = window.URL.createObjectURL(blob);
+    
+            // PDF 뷰어에서 열기
+            window.open(blobUrl, "_blank"); // 새 탭에서 PDF 열기
+    
+        } catch (error) {
+            console.error("PDF 열기 오류:", error);
+        }
+    }
+
+    async function downloadHwp(fileLink: string) {
+        const regex = /file=(.*)&/;
+
+        const file = regex.exec(fileLink)![1];
+        const fileName = fileLink.split("downFile=")[1];
+
+        try {
+            const responseHwp = await fetch(apiServerUrl + `/v1/file/hwp?file=${file}&fileName=${fileName}`)
+            if (!responseHwp.ok) throw new Error("파일 다운로드 실패");
+      
+            const blob = await responseHwp.blob();
+            const url = window.URL.createObjectURL(blob);
+      
+            // 강제 다운로드 실행
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = fileName; // 정상적인 한글 파일명 적용
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+      
+            window.URL.revokeObjectURL(url);
+
+        } catch (error) {
+            console.error("다운로드 오류:", error);
+        }
+    }
+
     return (
         <Table.Body>
             {items.map((item) => (
@@ -88,7 +138,12 @@ function getTableBody(items: Array<IBoard>) {
                         </Text>
                     </Table.Cell>
                     <Table.Cell>
-                        <Link href={item.fileLink} color="blue">{item.fileLink.endsWith(".pdf") ? "pdf" : "hwp"}</Link>
+                        {item.fileLink.endsWith(".pdf") ?
+                            <Link onClick={() => OpenPdf(item.fileLink)} color="blue">pdf</Link>
+                            :
+                            <Link onClick={() => downloadHwp(item.fileLink)} color="blue">hwp</Link>
+                        }
+                        
                     </Table.Cell>
                 </Table.Row>
             ))}

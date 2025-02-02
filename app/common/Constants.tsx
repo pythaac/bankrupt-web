@@ -23,6 +23,7 @@ export interface IApiResult<T> {
     error: any,
     isLoading: boolean,
     refetch: () => Promise<any>
+    setInitData: any
 }
 
 export interface ICategoryResource {

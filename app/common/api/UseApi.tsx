@@ -37,6 +37,7 @@ export function useApi<T>(
         "data": data, 
         "error": error, 
         "isLoading": isLoading,
-        "refetch": fetchData
+        "refetch": fetchData,
+        "setInitData": () => setData(initData)
     };
 }
