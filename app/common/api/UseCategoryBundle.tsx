@@ -6,7 +6,11 @@ export function useCategoryBundle(): any {
     const [url, setUrl] = useState<string>("");
 
     function onChangeCategoryId(categoryId: number) {
-        setUrl(apiServerUrl + "/v1/category/" + categoryId + "/bundle");
+        if (!!categoryId) {
+            setUrl(apiServerUrl + "/v1/category/" + categoryId + "/bundle");
+        } else {
+            apiResult.setInitData();
+        }
     }
     
     const apiResult = useApi<ICategoryBundle>({
