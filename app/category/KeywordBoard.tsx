@@ -16,7 +16,7 @@ function getKewordColumns(categoryBundleApiResult: IApiResult<ICategoryBundle>) 
     const category = categoryBundleApiResult.data.category;
 
     async function onClickAddKewordButton(data: any) {
-        if (category !== undefined) {
+        if (!!category) {
             const responsePost = await fetch(apiServerUrl + "/v1/category/resource", {
                 method: "POST",
                 body: new Blob([JSON.stringify({...data, categoryId: category.id})], { type: "application/json" })
@@ -34,10 +34,11 @@ function getKewordColumns(categoryBundleApiResult: IApiResult<ICategoryBundle>) 
         <Text>Keywords</Text>,
         <InputDialog
             title="새로운 키워드 추가"
-            label="땡땡 카테고리에 추가할 키워드를 입력하세요"
+            label={`${category?.categoryName} 카테고리에 추가할 키워드를 입력하세요`}
             placeholder="키워드"
             submitName="keyword"
             onSubmitSave={onClickAddKewordButton}
+            disabled={!category}
         >
             <IconButton size="sm" variant="outline">
                 <PiPlusBold color="black" />
@@ -74,7 +75,7 @@ function getKewordItems(categoryBundleApiResult: IApiResult<ICategoryBundle>) {
 
     const keywords = categoryBundleApiResult.data.categoryResources;
 
-    if (keywords !== undefined) {
+    if (!!keywords) {
         keywords.map((keyword) => {
             keywordTable.push(
                 [

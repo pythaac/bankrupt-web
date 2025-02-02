@@ -57,13 +57,14 @@ function getFooter() {
     )
 }
 
-export default function InputDialog<T extends FieldValues>({ children, title, label, placeholder, submitName, onSubmitSave }: {
+export default function InputDialog<T extends FieldValues>({ children, title, label, placeholder, submitName, onSubmitSave, disabled }: {
     children: ReactNode,
     title: string,
     label: string,
     placeholder: string,
     submitName: string,
-    onSubmitSave: (data: any) => Promise<any>
+    onSubmitSave: (data: any) => Promise<any>,
+    disabled?: any
 }) {
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<T>();
@@ -98,7 +99,7 @@ export default function InputDialog<T extends FieldValues>({ children, title, la
     return (
         <>
             <DialogRoot>
-                <DialogTrigger asChild>
+                <DialogTrigger asChild disabled={disabled}>
                     {children}
                 </DialogTrigger>
                 <DialogContent>
