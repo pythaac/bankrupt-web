@@ -67,12 +67,11 @@ function getCategoryItems(
             method: "DELETE"
         })
         if (!responseDelete.ok) return false;
+
+        categoryBundleApiResult.setInitData();
         
         await categoryApiResult.refetch();
         if (categoryApiResult.error) return false;
-
-        await categoryBundleApiResult.refetch();
-        if (categoryBundleApiResult.error) return false;
 
         return true;
     }
