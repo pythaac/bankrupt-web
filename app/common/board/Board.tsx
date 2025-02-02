@@ -95,6 +95,34 @@ function getTableBody(items: Array<IBoard>) {
         }
     }
 
+    async function downloadHwp(fileLink: string) {
+        const regex = /file=(.*)&/;
+
+        const file = regex.exec(fileLink)![1];
+        const fileName = fileLink.split("downFile=")[1];
+
+        try {
+            const responseHwp = await fetch(apiServerUrl + `/v1/file/hwp?file=${file}&fileName=${fileName}`)
+            if (!responseHwp.ok) throw new Error("파일 다운로드 실패");
+      
+            const blob = await responseHwp.blob();
+            const url = window.URL.createObjectURL(blob);
+      
+            // 강제 다운로드 실행
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = fileName; // 정상적인 한글 파일명 적용
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+      
+            window.URL.revokeObjectURL(url);
+
+        } catch (error) {
+            console.error("다운로드 오류:", error);
+        }
+    }
+
     return (
         <Table.Body>
             {items.map((item) => (
@@ -113,7 +141,7 @@ function getTableBody(items: Array<IBoard>) {
                         {item.fileLink.endsWith(".pdf") ?
                             <Link onClick={() => OpenPdf(item.fileLink)} color="blue">pdf</Link>
                             :
-                            <Link href={item.fileLink} color="blue">hwp</Link>
+                            <Link onClick={() => downloadHwp(item.fileLink)} color="blue">hwp</Link>
                         }
                         
                     </Table.Cell>
