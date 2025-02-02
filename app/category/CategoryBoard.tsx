@@ -68,7 +68,7 @@ function getCategoryItems(
         })
         if (!responseDelete.ok) return false;
 
-        categoryBundleApiResult.setInitData();
+        onChangeCategoryId(undefined);
         
         await categoryApiResult.refetch();
         if (categoryApiResult.error) return false;
