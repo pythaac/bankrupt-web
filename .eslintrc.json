@@ -5,6 +5,20 @@
   "rules": {
     "prettier/prettier": "error",
     "arrow-body-style": "off",
-    "prefer-arrow-callback": "off"
-  }
+    "prefer-arrow-callback": "off",
+    "@typescript-eslint/no-explicit-any": "off"
+  },
+
+  "overrides": [
+    {
+      "files": ["./components/**/*.+(ts|tsx)"],
+      "rules": {
+        "prettier/prettier": "off",
+        "arrow-body-style": "off",
+        "prefer-arrow-callback": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-empty-object-type": "off"
+      }
+    }
+  ]
 }
