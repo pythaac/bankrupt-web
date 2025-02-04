@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
   DialogActionTrigger,
   DialogBody,
@@ -9,11 +9,11 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { ReactNode, useContext } from "react"
+} from '@/components/ui/dialog'
+import { ReactNode, useContext } from 'react'
 
 import styles from './dialog.module.css'
-import { ToastContext } from "../Context"
+import { ToastContext } from '../Context'
 
 function getHeader() {
   return (
@@ -24,10 +24,7 @@ function getHeader() {
 }
 
 function getBody() {
-  return (
-    <DialogBody className={styles.dialog}>
-    </DialogBody>
-  )
+  return <DialogBody className={styles.dialog}></DialogBody>
 }
 
 function getFooter(onSubmit: any) {
@@ -37,44 +34,50 @@ function getFooter(onSubmit: any) {
         <Button variant="outline">취소</Button>
       </DialogActionTrigger>
       <DialogActionTrigger asChild>
-        <Button colorPalette="red" onClick={onSubmit}>삭제</Button>
+        <Button colorPalette="red" onClick={onSubmit}>
+          삭제
+        </Button>
       </DialogActionTrigger>
     </DialogFooter>
   )
 }
 
-export default function AlertDialog({children, onClick} : {children: ReactNode, onClick: () => Promise<any>}) {
-    const toaster = useContext(ToastContext);
+export default function AlertDialog({
+  children,
+  onClick,
+}: {
+  children: ReactNode
+  onClick: () => Promise<any>
+}) {
+  const toaster = useContext(ToastContext)
 
-    const onSubmit = () => {
-        const promise = new Promise<void>(async (resolve, reject) => {
-          const isSuccess = await onClick();
+  const onSubmit = () => {
+    const promise = new Promise<void>(async (resolve, reject) => {
+      const isSuccess = await onClick()
 
-          if (isSuccess) {
-            resolve();
-        } else {
-            reject();
-        }
-      });
+      if (isSuccess) {
+        resolve()
+      } else {
+        reject()
+      }
+    })
 
-        toaster.promise(promise, {
-            success: {
-              title: "삭제 완료",
-              description: "삭제가 성공적으로 완료되었습니다",
-            },
-            error: {
-              title: "삭제 실패",
-              description: "삭제에 실패하였습니다",
-            },
-            loading: { title: "삭제중...", description: "잠시만 기다려주세요" },
-          })
-    };
+    toaster.promise(promise, {
+      success: {
+        title: '삭제 완료',
+        description: '삭제가 성공적으로 완료되었습니다',
+      },
+      error: {
+        title: '삭제 실패',
+        description: '삭제에 실패하였습니다',
+      },
+      loading: { title: '삭제중...', description: '잠시만 기다려주세요' },
+    })
+  }
 
   return (
     <DialogRoot role="alertdialog">
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         {getHeader()}
         {getBody()}

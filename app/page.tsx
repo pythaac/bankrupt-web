@@ -1,8 +1,5 @@
-import BoardPage from "./board/page";
+import BoardPage from './board/page'
 
 export default function Home() {
-  return (
-      <BoardPage/>
-  );
+  return <BoardPage />
 }
-

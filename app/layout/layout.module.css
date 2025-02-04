@@ -1,71 +1,69 @@
-
 .layout {
-    width: calc(100vw - var(--scrollbar-width));
-    height: 100vh;
-    overflow-y: hidden;
-    min-width: 1250px;
+  width: calc(100vw - var(--scrollbar-width));
+  height: 100vh;
+  overflow-y: hidden;
+  min-width: 1250px;
 }
 
 .header {
-    width: 100%;
-    min-width: 1250px;
-    height: 85px;
-    background-color: #D8D5D6;
-    border-width: 1px;
-    border-color: #B4ADAE;
+  width: 100%;
+  min-width: 1250px;
+  height: 85px;
+  background-color: #d8d5d6;
+  border-width: 1px;
+  border-color: #b4adae;
 }
 
 .header_flex {
-    gap: 0;
-    direction: row;
-    justify-content: space-between;
-    height: 100%;
+  gap: 0;
+  direction: row;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .header_title {
-    padding: 15px;
-    padding-left: 25px;
-    font-size: 35px;
-    color: black;
+  padding: 15px;
+  padding-left: 25px;
+  font-size: 35px;
+  color: black;
 }
 
 .header_last_update {
-    margin-top: 20px;
-    padding: 5px;
-    font-size: 15px;
-    color: black;
+  margin-top: 20px;
+  padding: 5px;
+  font-size: 15px;
+  color: black;
 
-    width: 100%;
-    height: 20px;
-    text-align: right;
-    vertical-align: bottom;
-    
+  width: 100%;
+  height: 20px;
+  text-align: right;
+  vertical-align: bottom;
 }
 
 .header_copyright {
-    padding: 5px;
-    font-size: 15px;
-    color: black;
+  padding: 5px;
+  font-size: 15px;
+  color: black;
 
-    width: 100%;
-    height: 20px;
-    text-align: right;
-    vertical-align: bottom;
+  width: 100%;
+  height: 20px;
+  text-align: right;
+  vertical-align: bottom;
 }
 
 .navigator {
-    width: 200px;
-    min-width: 200px;
-    height: 100%;
-    background-color: white;
-    border-width: 1px;
-    border-color: #B4ADAE;
+  width: 200px;
+  min-width: 200px;
+  height: 100%;
+  background-color: white;
+  border-width: 1px;
+  border-color: #b4adae;
 }
 
 .body {
-    height: 100%;
-    flex: 1;
-    background-color: white;
-    border-width: 1px;
-    border-color: #B4ADAE;
+  height: 100%;
+  flex: 1;
+  background-color: white;
+  border-width: 1px;
+  border-color: #b4adae;
 }
