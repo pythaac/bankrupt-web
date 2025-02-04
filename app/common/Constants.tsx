@@ -1,5 +1,5 @@
 
-export const apiServerUrl = "http://localhost:8100";
+export const apiServerUrl = "http://pythaac.gonetis.com:8100";
 
 export interface ICategory {
     id: number,
