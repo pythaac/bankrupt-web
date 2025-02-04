@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useMemo } from 'react'
 import { IApiResult } from '../Constants'
 
 export function useApi<T>({
@@ -20,33 +20,36 @@ export function useApi<T>({
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  async function fetchData() {
+  // 객체 값들을 useMemo로 감싸서 참조값 유지
+  const memoizedBody = useMemo(() => body, [JSON.stringify(body)]) // JSON.stringify로 비교
+  const memoizedHeaders = useMemo(() => headers, [JSON.stringify(headers)])
+  const memoizedInitData = useMemo(() => initData, [JSON.stringify(initData)])
+
+  const fetchData = useCallback(async () => {
     setError(null)
     setIsLoading(true)
 
     await fetch(url, {
       method: method,
-      ...(headers && { headers }),
-      ...(body &&
-        new Blob([JSON.stringify(body)], { type: 'application/json' })),
+      ...(memoizedHeaders && { headers: memoizedHeaders }),
+      ...(memoizedBody && { body: JSON.stringify(memoizedBody) }),
     })
       .then((response) => response.json() as T)
       .then((res) => setData(res))
       .catch((error) => {
         setError(error)
-        if (!!initData) {
-          setData(initData)
+        if (!!memoizedInitData) {
+          setData(memoizedInitData)
         }
       })
       .finally(() => {
         setIsLoading(false)
       })
-  }
+  }, [url, method, memoizedHeaders, memoizedBody, memoizedInitData]) // 의존성 배열에서 메모이제이션된 값 사용
 
   useEffect(() => {
     fetchData()
-  }, [method, url, body, headers, fetchData])
+  }, [fetchData])
 
   return {
     data: data,
