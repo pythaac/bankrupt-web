@@ -1,29 +1,27 @@
-
 .table {
-    color: black;
-    width: 100%;
-    border-width: 1px;
-    border-color: #B4ADAE;
-    text-align: center;
+  color: black;
+  width: 100%;
+  border-width: 1px;
+  border-color: #b4adae;
+  text-align: center;
 }
 
 .table_header {
-    background-color: #D8D5D6;
-    border-width: 1px;
-    border-color: #B4ADAE;
-    height: 50px;
-    
+  background-color: #d8d5d6;
+  border-width: 1px;
+  border-color: #b4adae;
+  height: 50px;
 }
 
 .table_row {
-    border-width: 1px;
-    border-color: #B4ADAE;
-    height: 50px;
+  border-width: 1px;
+  border-color: #b4adae;
+  height: 50px;
 }
 
 .table_component {
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

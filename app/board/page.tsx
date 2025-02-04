@@ -1,9 +1,10 @@
-import Layout from "../layout/Layout";
-import Body from "./Body";
+import Layout from '../layout/Layout'
+import Body from './Body'
 
 export default function BoardPage() {
   return (
-      <Layout children={<Body/>}/>
-  );
+    <Layout>
+      <Body />
+    </Layout>
+  )
 }
-

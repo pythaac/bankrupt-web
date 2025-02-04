@@ -1,4 +1,3 @@
-import { CreateToasterReturn } from "@chakra-ui/react";
-import { createContext, RefObject } from "react";
+import { createContext } from 'react'
 
-export const ToastContext = createContext<any>(undefined);
+export const ToastContext = createContext<any>(undefined)
