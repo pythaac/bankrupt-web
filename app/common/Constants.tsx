@@ -14,6 +14,7 @@ export interface IBoard {
   due: string
   fileLink: string
   telephoneNumber: string
+  views: string
   categories: Array<ICategory>
 }
 
