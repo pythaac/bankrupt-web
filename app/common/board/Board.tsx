@@ -31,6 +31,7 @@ function getTableHeader() {
         <Table.ColumnHeader>제목</Table.ColumnHeader>
         <Table.ColumnHeader>마감기한</Table.ColumnHeader>
         <Table.ColumnHeader>카테고리</Table.ColumnHeader>
+        <Table.ColumnHeader>조회수</Table.ColumnHeader>
         <Table.ColumnHeader>파일</Table.ColumnHeader>
       </Table.Row>
     </Table.Header>
@@ -76,6 +77,7 @@ function getFilter({
             onValueChange={onValueChange}
           />
         </Table.Cell>
+        <Table.Cell> {/* views */} </Table.Cell>
         <Table.Cell> {/* file */} </Table.Cell>
       </Table.Row>
     </Table.Body>
@@ -150,6 +152,7 @@ function getTableBody(items: Array<IBoard>) {
                 .join(',')}
             </Text>
           </Table.Cell>
+          <Table.Cell>{item.views}</Table.Cell>
           <Table.Cell>
             {item.fileLink.endsWith('.pdf') ? (
               <Link onClick={() => OpenPdf(item.fileLink)} color="blue">
