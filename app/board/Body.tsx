@@ -8,7 +8,7 @@ import { useCategory } from '../common/api/UseCategory'
 export default function Body() {
   const [boardResult, boardProps] = useBoard()
   const pageState = [boardProps.page, boardProps.onChangePage]
-  const pageSizeState = [boardProps.pageSize, boardProps.onChangePageSize];
+  const pageSizeState = [boardProps.pageSize, boardProps.onChangePageSize]
 
   const [countResult, countProps] = useBoardCount()
 
