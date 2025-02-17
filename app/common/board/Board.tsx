@@ -48,7 +48,7 @@ function getFilter({
 }) {
   const [, setCategoryId] = categoryIdState
   const [, setPageSize] = pageSizeState
-  const pageSizeList = [5, 10, 15]
+  const pageSizeList = [10, 15, 20]
 
   function getKey(element: any) {
     return element.value
@@ -68,8 +68,12 @@ function getFilter({
     })),
   })
 
-  function onValueChange(value: Array<number>) {
+  function onCategoryValueChange(value: Array<number>) {
     setCategoryId(value.length == 0 ? NaN : value.at(0))
+  }
+
+  function onPageSizerValueChange(value: Array<number>) {
+    setPageSize(value.length == 0 ? 5 : value.at(0))
   }
 
   return (
@@ -84,7 +88,7 @@ function getFilter({
           <Select
             itemCollection={itemCollectionCategory}
             getKey={getKey}
-            onValueChange={onValueChange}
+            onValueChange={onCategoryValueChange}
           />
         </Table.Cell>
         <Table.Cell> {/* views */} </Table.Cell>
@@ -92,7 +96,7 @@ function getFilter({
           <Select
             itemCollection={itemCollectionPageSize}
             getKey={getKey}
-            onValueChange={setPageSize}
+            onValueChange={onPageSizerValueChange}
           />
         </Table.Cell>
       </Table.Row>
