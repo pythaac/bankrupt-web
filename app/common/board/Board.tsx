@@ -7,6 +7,7 @@ import {
   createListCollection,
   Text,
   Link,
+  VStack,
 } from '@chakra-ui/react'
 import {
   PaginationNextTrigger,
@@ -18,8 +19,6 @@ import {
 import styles from './board.module.css'
 import Select from '../Select'
 import { apiServerUrl, IBoard, ICategory } from '../Constants'
-
-const pageSize = 5
 
 function getTableHeader() {
   return (
@@ -41,20 +40,31 @@ function getTableHeader() {
 function getFilter({
   categories,
   categoryIdState,
+  pageSizeState,
 }: {
   categories: Array<ICategory>
   categoryIdState: any
+  pageSizeState: any
 }) {
   const [, setCategoryId] = categoryIdState
+  const [, setPageSize] = pageSizeState
+  const pageSizeList = [5, 10, 15]
 
   function getKey(element: any) {
     return element.value
   }
 
-  const itemCollection = createListCollection({
+  const itemCollectionCategory = createListCollection({
     items: categories.map((category) => ({
       label: category.categoryName,
       value: category.id,
+    })),
+  })
+
+  const itemCollectionPageSize = createListCollection({
+    items: pageSizeList.map((size) => ({
+      label: size,
+      value: size,
     })),
   })
 
@@ -72,13 +82,19 @@ function getFilter({
         <Table.Cell> {/* due */} </Table.Cell>
         <Table.Cell className={styles.table_component}>
           <Select
-            itemCollection={itemCollection}
+            itemCollection={itemCollectionCategory}
             getKey={getKey}
             onValueChange={onValueChange}
           />
         </Table.Cell>
         <Table.Cell> {/* views */} </Table.Cell>
-        <Table.Cell> {/* file */} </Table.Cell>
+        <Table.Cell className={styles.table_component}>
+          <Select
+            itemCollection={itemCollectionPageSize}
+            getKey={getKey}
+            onValueChange={setPageSize}
+          />
+        </Table.Cell>
       </Table.Row>
     </Table.Body>
   )
@@ -176,24 +192,25 @@ export default function Board({
   categories,
   pageState,
   categoryIdState,
+  pageSizeState,
 }: {
   boards: Array<IBoard>
   totalCount: number
   categories: Array<ICategory>
   pageState: any
   categoryIdState: any
+  pageSizeState: any
 }) {
   const [page, setPage] = pageState
+  const [pageSize] = pageSizeState
 
   return (
-    <>
-      <Box height="370px">
-        <Table.Root unstyled className={styles.table} textOverflow="ellipsis">
-          {getTableHeader()}
-          {getFilter({ categories, categoryIdState })}
-          {getTableBody(boards)}
-        </Table.Root>
-      </Box>
+    <VStack>
+      <Table.Root unstyled className={styles.table} textOverflow="ellipsis">
+        {getTableHeader()}
+        {getFilter({ categories, categoryIdState, pageSizeState })}
+        {getTableBody(boards)}
+      </Table.Root>
       <Box>
         <PaginationRoot
           page={page}
@@ -208,6 +225,6 @@ export default function Board({
           </HStack>
         </PaginationRoot>
       </Box>
-    </>
+    </VStack>
   )
 }
