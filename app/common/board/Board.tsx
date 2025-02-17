@@ -48,7 +48,7 @@ function getFilter({
 }) {
   const [, setCategoryId] = categoryIdState
   const [, setPageSize] = pageSizeState
-  const pageSizeList = [10, 15, 20]
+  const pageSizeList = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 
   function getKey(element: any) {
     return element.value
@@ -209,26 +209,26 @@ export default function Board({
   const [pageSize] = pageSizeState
 
   return (
-    <VStack>
+    <VStack height={pageSize * 50 + 300}>
       <Table.Root unstyled className={styles.table} textOverflow="ellipsis">
         {getTableHeader()}
         {getFilter({ categories, categoryIdState, pageSizeState })}
         {getTableBody(boards)}
       </Table.Root>
-      <Box>
-        <PaginationRoot
-          page={page}
-          count={totalCount}
-          pageSize={pageSize}
-          onPageChange={(e) => setPage(e.page)}
-        >
-          <HStack wrap="wrap">
-            <PaginationPageText format="long" flex="1" color="black" />
-            <PaginationPrevTrigger color="black" />
-            <PaginationNextTrigger color="black" />
-          </HStack>
-        </PaginationRoot>
-      </Box>
+      <PaginationRoot
+        page={page}
+        count={totalCount}
+        pageSize={pageSize}
+        onPageChange={(e) => setPage(e.page)}
+        flex="1"
+        width="100%"
+      >
+        <HStack wrap="wrap" flex="1">
+          <PaginationPageText format="long" flex="1" color="black" />
+          <PaginationPrevTrigger color="black" />
+          <PaginationNextTrigger color="black" />
+        </HStack>
+      </PaginationRoot>
     </VStack>
   )
 }
